@@ -1,0 +1,8 @@
+{
+  "typescript.tsdk": "next-app/node_modules/typescript/lib",
+  "typescript.enablePromptUseWorkspaceTsdk": true,
+  "typescript.validate.enable": true,
+  "files.exclude": {
+    "**/.next": true
+  }
+}
