@@ -28,26 +28,33 @@ export function CreateMapDialog({ open, onOpenChange }: Props) {
   const { createMap } = useMaps();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   function handleOpenChange(next: boolean) {
     if (!next) {
       setTitle("");
       setDescription("");
+      setIsSubmitting(false);
     }
     onOpenChange(next);
   }
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    if (!title.trim()) return;
+    if (!title.trim() || isSubmitting) return;
 
-    // BACKEND: createMap() should await POST /api/maps. Show a loading state on the
-    // button while it runs and surface errors with toast.error().
-    const map = createMap({ title: title.trim(), description: description.trim() });
-
-    toast.success(`Created “${map.title}”`);
-    handleOpenChange(false);
-    router.push(`/dashboard/maps/${map.id}`); // jump straight in to start adding skills
+    try {
+      setIsSubmitting(true);
+      const map = await createMap({ title: title.trim(), description: description.trim() });
+      toast.success(`Created “${map.title}”`);
+      handleOpenChange(false);
+      router.push(`/dashboard/maps/${map.id}`);
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : "Failed to create map";
+      toast.error(msg);
+    } finally {
+      setIsSubmitting(false);
+    }
   }
 
   return (

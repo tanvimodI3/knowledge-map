@@ -15,15 +15,22 @@ export async function GET(request: Request) {
     }
     const uid = decoded.uid;
     try {
-        // Fetch all non-deleted maps for this user.
+        // Fetch all maps for this user and filter/sort in-memory to avoid requiring a composite index in Firestore.
         const mapsSnap = await adminDb
             .collection(`users/${uid}/maps`)
-            .where("deletedAt", "==", null)
-            .orderBy("updatedAt", "desc")
             .get();
+
+        const nonDeletedDocs = mapsSnap.docs
+            .filter((doc) => doc.data().deletedAt === null)
+            .sort((a, b) => {
+                const aTime = a.data().updatedAt?.toMillis?.() ?? 0;
+                const bTime = b.data().updatedAt?.toMillis?.() ?? 0;
+                return bTime - aTime;
+            });
+
         // Assemble each map with its skills and connections.
         const maps = await Promise.all(
-            mapsSnap.docs.map(async (doc) => {
+            nonDeletedDocs.map(async (doc) => {
                 const data = doc.data();
                 const [skillsSnap, connsSnap] = await Promise.all([
                     doc.ref.collection("skills").get(),

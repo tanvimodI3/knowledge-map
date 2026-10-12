@@ -61,7 +61,7 @@ export function AddSkillDialog({ map, open, onOpenChange, onAdded }: Props) {
     onOpenChange(next);
   }
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     const trimmed = name.trim();
     if (!trimmed) return;
@@ -70,17 +70,20 @@ export function AddSkillDialog({ map, open, onOpenChange, onAdded }: Props) {
       return;
     }
 
-    // BACKEND: addSkill() should await POST /api/maps/:mapId/skills with the links
-    // included, so the skill and its connections are saved together.
-    const skill = addSkill(
-      map.id,
-      { name: trimmed, category: category.trim() || "General", level },
-      Object.entries(links).map(([skillId, choice]) => ({ skillId, choice })),
-    );
+    try {
+      const skill = await addSkill(
+        map.id,
+        { name: trimmed, category: category.trim() || "General", level },
+        Object.entries(links).map(([skillId, choice]) => ({ skillId, choice })),
+      );
 
-    toast.success(`Added “${skill.name}”`);
-    onAdded?.(skill.id);
-    handleOpenChange(false);
+      toast.success(`Added “${skill.name}”`);
+      onAdded?.(skill.id);
+      handleOpenChange(false);
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : "Failed to add skill";
+      toast.error(msg);
+    }
   }
 
   return (
