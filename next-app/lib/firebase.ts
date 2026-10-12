@@ -14,3 +14,7 @@ const firebaseConfig: FirebaseOptions = {
 export const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 export const googleProvider = new GoogleAuthProvider();
+
+if (typeof window !== "undefined") {
+  (window as any).auth = auth;
+}
