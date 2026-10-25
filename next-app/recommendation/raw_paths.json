@@ -1,0 +1,536 @@
+[
+  {
+    "user": "u_diana",
+    "item": "sql",
+    "nodes": [
+      "u_diana",
+      "database_indexing",
+      "sql"
+    ],
+    "relations": [
+      "interacts",
+      "prerequisite⁻¹"
+    ]
+  },
+  {
+    "user": "u_diana",
+    "item": "sql",
+    "nodes": [
+      "u_diana",
+      "vector_db",
+      "sql"
+    ],
+    "relations": [
+      "interacts",
+      "related_to⁻¹"
+    ]
+  },
+  {
+    "user": "u_alice",
+    "item": "transformers",
+    "nodes": [
+      "u_alice",
+      "neural_networks",
+      "transformers"
+    ],
+    "relations": [
+      "interacts",
+      "prerequisite"
+    ]
+  },
+  {
+    "user": "u_alice",
+    "item": "transformers",
+    "nodes": [
+      "u_alice",
+      "python",
+      "pytorch",
+      "transformers"
+    ],
+    "relations": [
+      "interacts",
+      "prerequisite",
+      "prerequisite"
+    ]
+  },
+  {
+    "user": "u_alice",
+    "item": "transformers",
+    "nodes": [
+      "u_alice",
+      "neural_networks",
+      "pytorch",
+      "transformers"
+    ],
+    "relations": [
+      "interacts",
+      "prerequisite",
+      "prerequisite"
+    ]
+  },
+  {
+    "user": "u_charlie",
+    "item": "rag",
+    "nodes": [
+      "u_charlie",
+      "fastapi",
+      "rag"
+    ],
+    "relations": [
+      "interacts",
+      "related_to"
+    ]
+  },
+  {
+    "user": "u_charlie",
+    "item": "rag",
+    "nodes": [
+      "u_charlie",
+      "python",
+      "fastapi",
+      "rag"
+    ],
+    "relations": [
+      "interacts",
+      "prerequisite",
+      "related_to"
+    ]
+  },
+  {
+    "user": "u_bob",
+    "item": "javascript",
+    "nodes": [
+      "u_bob",
+      "typescript",
+      "javascript"
+    ],
+    "relations": [
+      "interacts",
+      "prerequisite⁻¹"
+    ]
+  },
+  {
+    "user": "u_bob",
+    "item": "javascript",
+    "nodes": [
+      "u_bob",
+      "react",
+      "javascript"
+    ],
+    "relations": [
+      "interacts",
+      "prerequisite⁻¹"
+    ]
+  },
+  {
+    "user": "u_bob",
+    "item": "javascript",
+    "nodes": [
+      "u_bob",
+      "nextjs",
+      "typescript",
+      "javascript"
+    ],
+    "relations": [
+      "interacts",
+      "prerequisite⁻¹",
+      "prerequisite⁻¹"
+    ]
+  },
+  {
+    "user": "u_bob",
+    "item": "javascript",
+    "nodes": [
+      "u_bob",
+      "nextjs",
+      "react",
+      "javascript"
+    ],
+    "relations": [
+      "interacts",
+      "prerequisite⁻¹",
+      "prerequisite⁻¹"
+    ]
+  },
+  {
+    "user": "u_alice",
+    "item": "neural_networks",
+    "nodes": [
+      "u_alice",
+      "transformers",
+      "neural_networks"
+    ],
+    "relations": [
+      "interacts",
+      "prerequisite⁻¹"
+    ]
+  },
+  {
+    "user": "u_alice",
+    "item": "neural_networks",
+    "nodes": [
+      "u_alice",
+      "python",
+      "pytorch",
+      "neural_networks"
+    ],
+    "relations": [
+      "interacts",
+      "prerequisite",
+      "prerequisite⁻¹"
+    ]
+  },
+  {
+    "user": "u_alice",
+    "item": "neural_networks",
+    "nodes": [
+      "u_alice",
+      "transformers",
+      "pytorch",
+      "neural_networks"
+    ],
+    "relations": [
+      "interacts",
+      "prerequisite⁻¹",
+      "prerequisite⁻¹"
+    ]
+  },
+  {
+    "user": "u_bob",
+    "item": "typescript",
+    "nodes": [
+      "u_bob",
+      "javascript",
+      "typescript"
+    ],
+    "relations": [
+      "interacts",
+      "prerequisite"
+    ]
+  },
+  {
+    "user": "u_bob",
+    "item": "typescript",
+    "nodes": [
+      "u_bob",
+      "nextjs",
+      "typescript"
+    ],
+    "relations": [
+      "interacts",
+      "prerequisite⁻¹"
+    ]
+  },
+  {
+    "user": "u_bob",
+    "item": "typescript",
+    "nodes": [
+      "u_bob",
+      "react",
+      "javascript",
+      "typescript"
+    ],
+    "relations": [
+      "interacts",
+      "prerequisite⁻¹",
+      "prerequisite"
+    ]
+  },
+  {
+    "user": "u_bob",
+    "item": "typescript",
+    "nodes": [
+      "u_bob",
+      "react",
+      "nextjs",
+      "typescript"
+    ],
+    "relations": [
+      "interacts",
+      "prerequisite",
+      "prerequisite⁻¹"
+    ]
+  },
+  {
+    "user": "u_charlie",
+    "item": "fastapi",
+    "nodes": [
+      "u_charlie",
+      "python",
+      "fastapi"
+    ],
+    "relations": [
+      "interacts",
+      "prerequisite"
+    ]
+  },
+  {
+    "user": "u_charlie",
+    "item": "fastapi",
+    "nodes": [
+      "u_charlie",
+      "rag",
+      "fastapi"
+    ],
+    "relations": [
+      "interacts",
+      "related_to⁻¹"
+    ]
+  },
+  {
+    "user": "u_diana",
+    "item": "vector_db",
+    "nodes": [
+      "u_diana",
+      "sql",
+      "vector_db"
+    ],
+    "relations": [
+      "interacts",
+      "related_to"
+    ]
+  },
+  {
+    "user": "u_diana",
+    "item": "vector_db",
+    "nodes": [
+      "u_diana",
+      "database_indexing",
+      "sql",
+      "vector_db"
+    ],
+    "relations": [
+      "interacts",
+      "prerequisite⁻¹",
+      "related_to"
+    ]
+  },
+  {
+    "user": "u_alice",
+    "item": "python",
+    "nodes": [
+      "u_alice",
+      "neural_networks",
+      "pytorch",
+      "python"
+    ],
+    "relations": [
+      "interacts",
+      "prerequisite",
+      "prerequisite⁻¹"
+    ]
+  },
+  {
+    "user": "u_alice",
+    "item": "python",
+    "nodes": [
+      "u_alice",
+      "transformers",
+      "pytorch",
+      "python"
+    ],
+    "relations": [
+      "interacts",
+      "prerequisite⁻¹",
+      "prerequisite⁻¹"
+    ]
+  },
+  {
+    "user": "u_bob",
+    "item": "react",
+    "nodes": [
+      "u_bob",
+      "javascript",
+      "react"
+    ],
+    "relations": [
+      "interacts",
+      "prerequisite"
+    ]
+  },
+  {
+    "user": "u_bob",
+    "item": "react",
+    "nodes": [
+      "u_bob",
+      "nextjs",
+      "react"
+    ],
+    "relations": [
+      "interacts",
+      "prerequisite⁻¹"
+    ]
+  },
+  {
+    "user": "u_bob",
+    "item": "react",
+    "nodes": [
+      "u_bob",
+      "typescript",
+      "javascript",
+      "react"
+    ],
+    "relations": [
+      "interacts",
+      "prerequisite⁻¹",
+      "prerequisite"
+    ]
+  },
+  {
+    "user": "u_bob",
+    "item": "react",
+    "nodes": [
+      "u_bob",
+      "typescript",
+      "nextjs",
+      "react"
+    ],
+    "relations": [
+      "interacts",
+      "prerequisite",
+      "prerequisite⁻¹"
+    ]
+  },
+  {
+    "user": "u_charlie",
+    "item": "python",
+    "nodes": [
+      "u_charlie",
+      "fastapi",
+      "python"
+    ],
+    "relations": [
+      "interacts",
+      "prerequisite⁻¹"
+    ]
+  },
+  {
+    "user": "u_charlie",
+    "item": "python",
+    "nodes": [
+      "u_charlie",
+      "rag",
+      "fastapi",
+      "python"
+    ],
+    "relations": [
+      "interacts",
+      "related_to⁻¹",
+      "prerequisite⁻¹"
+    ]
+  },
+  {
+    "user": "u_bob",
+    "item": "nextjs",
+    "nodes": [
+      "u_bob",
+      "typescript",
+      "nextjs"
+    ],
+    "relations": [
+      "interacts",
+      "prerequisite"
+    ]
+  },
+  {
+    "user": "u_bob",
+    "item": "nextjs",
+    "nodes": [
+      "u_bob",
+      "react",
+      "nextjs"
+    ],
+    "relations": [
+      "interacts",
+      "prerequisite"
+    ]
+  },
+  {
+    "user": "u_bob",
+    "item": "nextjs",
+    "nodes": [
+      "u_bob",
+      "javascript",
+      "typescript",
+      "nextjs"
+    ],
+    "relations": [
+      "interacts",
+      "prerequisite",
+      "prerequisite"
+    ]
+  },
+  {
+    "user": "u_bob",
+    "item": "nextjs",
+    "nodes": [
+      "u_bob",
+      "javascript",
+      "react",
+      "nextjs"
+    ],
+    "relations": [
+      "interacts",
+      "prerequisite",
+      "prerequisite"
+    ]
+  },
+  {
+    "user": "u_diana",
+    "item": "docker",
+    "nodes": [
+      "u_diana",
+      "python",
+      "fastapi",
+      "docker"
+    ],
+    "relations": [
+      "interacts",
+      "prerequisite",
+      "related_to"
+    ]
+  },
+  {
+    "user": "u_diana",
+    "item": "python",
+    "nodes": [
+      "u_diana",
+      "docker",
+      "fastapi",
+      "python"
+    ],
+    "relations": [
+      "interacts",
+      "related_to⁻¹",
+      "prerequisite⁻¹"
+    ]
+  },
+  {
+    "user": "u_diana",
+    "item": "database_indexing",
+    "nodes": [
+      "u_diana",
+      "sql",
+      "database_indexing"
+    ],
+    "relations": [
+      "interacts",
+      "prerequisite"
+    ]
+  },
+  {
+    "user": "u_diana",
+    "item": "database_indexing",
+    "nodes": [
+      "u_diana",
+      "vector_db",
+      "sql",
+      "database_indexing"
+    ],
+    "relations": [
+      "interacts",
+      "related_to⁻¹",
+      "prerequisite"
+    ]
+  }
+]

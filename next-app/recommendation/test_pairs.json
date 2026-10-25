@@ -1,0 +1,18 @@
+[
+  {
+    "user": "u_charlie",
+    "item": "docker"
+  },
+  {
+    "user": "u_alice",
+    "item": "probability"
+  },
+  {
+    "user": "u_alice",
+    "item": "linear_algebra"
+  },
+  {
+    "user": "u_alice",
+    "item": "pytorch"
+  }
+]
