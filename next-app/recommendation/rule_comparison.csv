@@ -1,0 +1,13 @@
+﻿rule_text,frequency,graph_connected_pairs,tp,fp,fn,tn,chi2,p_value,expected_count_below_5,kept_by_frequency,kept_by_chi_square,kept_for_part2
+interacts ∧ prerequisite,6,14,6,11,8,35,1.0787570842290402,0.29897577118630714,True,True,False,False
+interacts ∧ prerequisite ∧ prerequisite,2,5,2,15,3,40,0.007461758487750295,0.9311631760726748,True,True,False,False
+interacts ∧ prerequisite ∧ prerequisite⁻¹,4,9,4,13,5,38,0.5809929991148308,0.4459233600100514,True,True,False,False
+interacts ∧ prerequisite ∧ related_to,2,5,2,15,3,40,0.007461758487750295,0.9311631760726748,True,True,False,False
+interacts ∧ prerequisite⁻¹,6,9,6,11,3,40,5.6023175344009015,0.017936735314189673,True,True,True,True
+interacts ∧ prerequisite⁻¹ ∧ prerequisite,2,4,2,15,2,41,0.1773500097713505,0.6736605610575735,True,True,False,False
+interacts ∧ prerequisite⁻¹ ∧ prerequisite⁻¹,3,5,3,14,2,41,1.2610371844297974,0.26145485701421056,True,True,False,False
+interacts ∧ prerequisite⁻¹ ∧ related_to,1,1,1,16,0,43,0.2351086276055554,0.627761460532293,True,False,False,False
+interacts ∧ related_to,2,4,2,15,2,41,0.1773500097713505,0.6736605610575735,True,True,False,False
+interacts ∧ related_to⁻¹,2,4,2,15,2,41,0.1773500097713505,0.6736605610575735,True,True,False,False
+interacts ∧ related_to⁻¹ ∧ prerequisite,1,1,1,16,0,43,0.2351086276055554,0.627761460532293,True,False,False,False
+interacts ∧ related_to⁻¹ ∧ prerequisite⁻¹,2,2,2,15,0,43,2.218972593046842,0.13632375206384215,True,True,False,False

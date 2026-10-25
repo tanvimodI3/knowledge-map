@@ -1,0 +1,405 @@
+{
+  "selected_filter": "chi_square",
+  "minimum_frequency": 2,
+  "alpha": 0.05,
+  "candidate_user_item_pairs": 60,
+  "total_user_item_pairs": 64,
+  "positive_interactions": 17,
+  "held_out_interactions_excluded_from_rule_search": 4,
+  "rule_count": 12,
+  "selected_rule_count": 1,
+  "rules": [
+    {
+      "rule": [
+        "interacts",
+        "prerequisite"
+      ],
+      "rule_text": "interacts ∧ prerequisite",
+      "frequency": 6,
+      "graph_connected_pairs": 14,
+      "tp": 6,
+      "fp": 11,
+      "fn": 8,
+      "tn": 35,
+      "chi2": 1.0787570842290402,
+      "p_value": 0.29897577118630714,
+      "degrees_of_freedom": 1,
+      "expected_counts": [
+        [
+          3.966666666666667,
+          13.033333333333333
+        ],
+        [
+          10.033333333333333,
+          32.96666666666667
+        ]
+      ],
+      "expected_count_below_5": true,
+      "chi_square_testable": true,
+      "chi_square_warnings": [],
+      "kept_by_chi_square": false,
+      "kept_by_frequency": true,
+      "kept_for_part2": false
+    },
+    {
+      "rule": [
+        "interacts",
+        "prerequisite",
+        "prerequisite"
+      ],
+      "rule_text": "interacts ∧ prerequisite ∧ prerequisite",
+      "frequency": 2,
+      "graph_connected_pairs": 5,
+      "tp": 2,
+      "fp": 15,
+      "fn": 3,
+      "tn": 40,
+      "chi2": 0.007461758487750295,
+      "p_value": 0.9311631760726748,
+      "degrees_of_freedom": 1,
+      "expected_counts": [
+        [
+          1.4166666666666667,
+          15.583333333333334
+        ],
+        [
+          3.5833333333333335,
+          39.416666666666664
+        ]
+      ],
+      "expected_count_below_5": true,
+      "chi_square_testable": true,
+      "chi_square_warnings": [],
+      "kept_by_chi_square": false,
+      "kept_by_frequency": true,
+      "kept_for_part2": false
+    },
+    {
+      "rule": [
+        "interacts",
+        "prerequisite",
+        "prerequisite⁻¹"
+      ],
+      "rule_text": "interacts ∧ prerequisite ∧ prerequisite⁻¹",
+      "frequency": 4,
+      "graph_connected_pairs": 9,
+      "tp": 4,
+      "fp": 13,
+      "fn": 5,
+      "tn": 38,
+      "chi2": 0.5809929991148308,
+      "p_value": 0.4459233600100514,
+      "degrees_of_freedom": 1,
+      "expected_counts": [
+        [
+          2.55,
+          14.45
+        ],
+        [
+          6.45,
+          36.55
+        ]
+      ],
+      "expected_count_below_5": true,
+      "chi_square_testable": true,
+      "chi_square_warnings": [],
+      "kept_by_chi_square": false,
+      "kept_by_frequency": true,
+      "kept_for_part2": false
+    },
+    {
+      "rule": [
+        "interacts",
+        "prerequisite",
+        "related_to"
+      ],
+      "rule_text": "interacts ∧ prerequisite ∧ related_to",
+      "frequency": 2,
+      "graph_connected_pairs": 5,
+      "tp": 2,
+      "fp": 15,
+      "fn": 3,
+      "tn": 40,
+      "chi2": 0.007461758487750295,
+      "p_value": 0.9311631760726748,
+      "degrees_of_freedom": 1,
+      "expected_counts": [
+        [
+          1.4166666666666667,
+          15.583333333333334
+        ],
+        [
+          3.5833333333333335,
+          39.416666666666664
+        ]
+      ],
+      "expected_count_below_5": true,
+      "chi_square_testable": true,
+      "chi_square_warnings": [],
+      "kept_by_chi_square": false,
+      "kept_by_frequency": true,
+      "kept_for_part2": false
+    },
+    {
+      "rule": [
+        "interacts",
+        "prerequisite⁻¹"
+      ],
+      "rule_text": "interacts ∧ prerequisite⁻¹",
+      "frequency": 6,
+      "graph_connected_pairs": 9,
+      "tp": 6,
+      "fp": 11,
+      "fn": 3,
+      "tn": 40,
+      "chi2": 5.6023175344009015,
+      "p_value": 0.017936735314189673,
+      "degrees_of_freedom": 1,
+      "expected_counts": [
+        [
+          2.55,
+          14.45
+        ],
+        [
+          6.45,
+          36.55
+        ]
+      ],
+      "expected_count_below_5": true,
+      "chi_square_testable": true,
+      "chi_square_warnings": [],
+      "kept_by_chi_square": true,
+      "kept_by_frequency": true,
+      "kept_for_part2": true
+    },
+    {
+      "rule": [
+        "interacts",
+        "prerequisite⁻¹",
+        "prerequisite"
+      ],
+      "rule_text": "interacts ∧ prerequisite⁻¹ ∧ prerequisite",
+      "frequency": 2,
+      "graph_connected_pairs": 4,
+      "tp": 2,
+      "fp": 15,
+      "fn": 2,
+      "tn": 41,
+      "chi2": 0.1773500097713505,
+      "p_value": 0.6736605610575735,
+      "degrees_of_freedom": 1,
+      "expected_counts": [
+        [
+          1.1333333333333333,
+          15.866666666666667
+        ],
+        [
+          2.8666666666666667,
+          40.13333333333333
+        ]
+      ],
+      "expected_count_below_5": true,
+      "chi_square_testable": true,
+      "chi_square_warnings": [],
+      "kept_by_chi_square": false,
+      "kept_by_frequency": true,
+      "kept_for_part2": false
+    },
+    {
+      "rule": [
+        "interacts",
+        "prerequisite⁻¹",
+        "prerequisite⁻¹"
+      ],
+      "rule_text": "interacts ∧ prerequisite⁻¹ ∧ prerequisite⁻¹",
+      "frequency": 3,
+      "graph_connected_pairs": 5,
+      "tp": 3,
+      "fp": 14,
+      "fn": 2,
+      "tn": 41,
+      "chi2": 1.2610371844297974,
+      "p_value": 0.26145485701421056,
+      "degrees_of_freedom": 1,
+      "expected_counts": [
+        [
+          1.4166666666666667,
+          15.583333333333334
+        ],
+        [
+          3.5833333333333335,
+          39.416666666666664
+        ]
+      ],
+      "expected_count_below_5": true,
+      "chi_square_testable": true,
+      "chi_square_warnings": [],
+      "kept_by_chi_square": false,
+      "kept_by_frequency": true,
+      "kept_for_part2": false
+    },
+    {
+      "rule": [
+        "interacts",
+        "prerequisite⁻¹",
+        "related_to"
+      ],
+      "rule_text": "interacts ∧ prerequisite⁻¹ ∧ related_to",
+      "frequency": 1,
+      "graph_connected_pairs": 1,
+      "tp": 1,
+      "fp": 16,
+      "fn": 0,
+      "tn": 43,
+      "chi2": 0.2351086276055554,
+      "p_value": 0.627761460532293,
+      "degrees_of_freedom": 1,
+      "expected_counts": [
+        [
+          0.2833333333333333,
+          16.716666666666665
+        ],
+        [
+          0.7166666666666667,
+          42.28333333333333
+        ]
+      ],
+      "expected_count_below_5": true,
+      "chi_square_testable": true,
+      "chi_square_warnings": [],
+      "kept_by_chi_square": false,
+      "kept_by_frequency": false,
+      "kept_for_part2": false
+    },
+    {
+      "rule": [
+        "interacts",
+        "related_to"
+      ],
+      "rule_text": "interacts ∧ related_to",
+      "frequency": 2,
+      "graph_connected_pairs": 4,
+      "tp": 2,
+      "fp": 15,
+      "fn": 2,
+      "tn": 41,
+      "chi2": 0.1773500097713505,
+      "p_value": 0.6736605610575735,
+      "degrees_of_freedom": 1,
+      "expected_counts": [
+        [
+          1.1333333333333333,
+          15.866666666666667
+        ],
+        [
+          2.8666666666666667,
+          40.13333333333333
+        ]
+      ],
+      "expected_count_below_5": true,
+      "chi_square_testable": true,
+      "chi_square_warnings": [],
+      "kept_by_chi_square": false,
+      "kept_by_frequency": true,
+      "kept_for_part2": false
+    },
+    {
+      "rule": [
+        "interacts",
+        "related_to⁻¹"
+      ],
+      "rule_text": "interacts ∧ related_to⁻¹",
+      "frequency": 2,
+      "graph_connected_pairs": 4,
+      "tp": 2,
+      "fp": 15,
+      "fn": 2,
+      "tn": 41,
+      "chi2": 0.1773500097713505,
+      "p_value": 0.6736605610575735,
+      "degrees_of_freedom": 1,
+      "expected_counts": [
+        [
+          1.1333333333333333,
+          15.866666666666667
+        ],
+        [
+          2.8666666666666667,
+          40.13333333333333
+        ]
+      ],
+      "expected_count_below_5": true,
+      "chi_square_testable": true,
+      "chi_square_warnings": [],
+      "kept_by_chi_square": false,
+      "kept_by_frequency": true,
+      "kept_for_part2": false
+    },
+    {
+      "rule": [
+        "interacts",
+        "related_to⁻¹",
+        "prerequisite"
+      ],
+      "rule_text": "interacts ∧ related_to⁻¹ ∧ prerequisite",
+      "frequency": 1,
+      "graph_connected_pairs": 1,
+      "tp": 1,
+      "fp": 16,
+      "fn": 0,
+      "tn": 43,
+      "chi2": 0.2351086276055554,
+      "p_value": 0.627761460532293,
+      "degrees_of_freedom": 1,
+      "expected_counts": [
+        [
+          0.2833333333333333,
+          16.716666666666665
+        ],
+        [
+          0.7166666666666667,
+          42.28333333333333
+        ]
+      ],
+      "expected_count_below_5": true,
+      "chi_square_testable": true,
+      "chi_square_warnings": [],
+      "kept_by_chi_square": false,
+      "kept_by_frequency": false,
+      "kept_for_part2": false
+    },
+    {
+      "rule": [
+        "interacts",
+        "related_to⁻¹",
+        "prerequisite⁻¹"
+      ],
+      "rule_text": "interacts ∧ related_to⁻¹ ∧ prerequisite⁻¹",
+      "frequency": 2,
+      "graph_connected_pairs": 2,
+      "tp": 2,
+      "fp": 15,
+      "fn": 0,
+      "tn": 43,
+      "chi2": 2.218972593046842,
+      "p_value": 0.13632375206384215,
+      "degrees_of_freedom": 1,
+      "expected_counts": [
+        [
+          0.5666666666666667,
+          16.433333333333334
+        ],
+        [
+          1.4333333333333333,
+          41.56666666666667
+        ]
+      ],
+      "expected_count_below_5": true,
+      "chi_square_testable": true,
+      "chi_square_warnings": [],
+      "kept_by_chi_square": false,
+      "kept_by_frequency": true,
+      "kept_for_part2": false
+    }
+  ]
+}

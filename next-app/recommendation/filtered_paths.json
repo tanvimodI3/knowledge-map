@@ -1,0 +1,93 @@
+[
+  {
+    "user": "u_diana",
+    "item": "sql",
+    "nodes": [
+      "u_diana",
+      "database_indexing",
+      "sql"
+    ],
+    "relations": [
+      "interacts",
+      "prerequisite⁻¹"
+    ]
+  },
+  {
+    "user": "u_bob",
+    "item": "javascript",
+    "nodes": [
+      "u_bob",
+      "typescript",
+      "javascript"
+    ],
+    "relations": [
+      "interacts",
+      "prerequisite⁻¹"
+    ]
+  },
+  {
+    "user": "u_bob",
+    "item": "javascript",
+    "nodes": [
+      "u_bob",
+      "react",
+      "javascript"
+    ],
+    "relations": [
+      "interacts",
+      "prerequisite⁻¹"
+    ]
+  },
+  {
+    "user": "u_alice",
+    "item": "neural_networks",
+    "nodes": [
+      "u_alice",
+      "transformers",
+      "neural_networks"
+    ],
+    "relations": [
+      "interacts",
+      "prerequisite⁻¹"
+    ]
+  },
+  {
+    "user": "u_bob",
+    "item": "typescript",
+    "nodes": [
+      "u_bob",
+      "nextjs",
+      "typescript"
+    ],
+    "relations": [
+      "interacts",
+      "prerequisite⁻¹"
+    ]
+  },
+  {
+    "user": "u_bob",
+    "item": "react",
+    "nodes": [
+      "u_bob",
+      "nextjs",
+      "react"
+    ],
+    "relations": [
+      "interacts",
+      "prerequisite⁻¹"
+    ]
+  },
+  {
+    "user": "u_charlie",
+    "item": "python",
+    "nodes": [
+      "u_charlie",
+      "fastapi",
+      "python"
+    ],
+    "relations": [
+      "interacts",
+      "prerequisite⁻¹"
+    ]
+  }
+]
