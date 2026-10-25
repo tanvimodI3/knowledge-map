@@ -1,0 +1,594 @@
+{
+  "u_diana|sql": {
+    "interacts,prerequisite\u207b\u00b9": [
+      {
+        "nodes": [
+          "u_diana",
+          "database_indexing",
+          "sql"
+        ],
+        "relations": [
+          "interacts",
+          "prerequisite\u207b\u00b9"
+        ],
+        "score": 0.4200368956181577
+      }
+    ],
+    "interacts,related_to\u207b\u00b9": [
+      {
+        "nodes": [
+          "u_diana",
+          "vector_db",
+          "sql"
+        ],
+        "relations": [
+          "interacts",
+          "related_to\u207b\u00b9"
+        ],
+        "score": 0.42207034497109064
+      }
+    ]
+  },
+  "u_alice|transformers": {
+    "interacts,prerequisite": [
+      {
+        "nodes": [
+          "u_alice",
+          "neural_networks",
+          "transformers"
+        ],
+        "relations": [
+          "interacts",
+          "prerequisite"
+        ],
+        "score": 0.27437500495701145
+      }
+    ],
+    "interacts,prerequisite,prerequisite": [
+      {
+        "nodes": [
+          "u_alice",
+          "python",
+          "pytorch",
+          "transformers"
+        ],
+        "relations": [
+          "interacts",
+          "prerequisite",
+          "prerequisite"
+        ],
+        "score": 0.3182442058819141
+      },
+      {
+        "nodes": [
+          "u_alice",
+          "neural_networks",
+          "pytorch",
+          "transformers"
+        ],
+        "relations": [
+          "interacts",
+          "prerequisite",
+          "prerequisite"
+        ],
+        "score": 0.2767519475638945
+      }
+    ]
+  },
+  "u_charlie|rag": {
+    "interacts,related_to": [
+      {
+        "nodes": [
+          "u_charlie",
+          "fastapi",
+          "rag"
+        ],
+        "relations": [
+          "interacts",
+          "related_to"
+        ],
+        "score": 0.30247877649757265
+      }
+    ],
+    "interacts,prerequisite,related_to": [
+      {
+        "nodes": [
+          "u_charlie",
+          "python",
+          "fastapi",
+          "rag"
+        ],
+        "relations": [
+          "interacts",
+          "prerequisite",
+          "related_to"
+        ],
+        "score": 0.26631481050736483
+      }
+    ]
+  },
+  "u_bob|javascript": {
+    "interacts,prerequisite\u207b\u00b9": [
+      {
+        "nodes": [
+          "u_bob",
+          "typescript",
+          "javascript"
+        ],
+        "relations": [
+          "interacts",
+          "prerequisite\u207b\u00b9"
+        ],
+        "score": 0.4007593906477488
+      },
+      {
+        "nodes": [
+          "u_bob",
+          "react",
+          "javascript"
+        ],
+        "relations": [
+          "interacts",
+          "prerequisite\u207b\u00b9"
+        ],
+        "score": 0.3346278494451542
+      }
+    ],
+    "interacts,prerequisite\u207b\u00b9,prerequisite\u207b\u00b9": [
+      {
+        "nodes": [
+          "u_bob",
+          "nextjs",
+          "typescript",
+          "javascript"
+        ],
+        "relations": [
+          "interacts",
+          "prerequisite\u207b\u00b9",
+          "prerequisite\u207b\u00b9"
+        ],
+        "score": 0.34544252393179664
+      },
+      {
+        "nodes": [
+          "u_bob",
+          "nextjs",
+          "react",
+          "javascript"
+        ],
+        "relations": [
+          "interacts",
+          "prerequisite\u207b\u00b9",
+          "prerequisite\u207b\u00b9"
+        ],
+        "score": 0.3186666940506416
+      }
+    ]
+  },
+  "u_alice|neural_networks": {
+    "interacts,prerequisite\u207b\u00b9": [
+      {
+        "nodes": [
+          "u_alice",
+          "transformers",
+          "neural_networks"
+        ],
+        "relations": [
+          "interacts",
+          "prerequisite\u207b\u00b9"
+        ],
+        "score": 0.27437500495701145
+      }
+    ],
+    "interacts,prerequisite,prerequisite\u207b\u00b9": [
+      {
+        "nodes": [
+          "u_alice",
+          "python",
+          "pytorch",
+          "neural_networks"
+        ],
+        "relations": [
+          "interacts",
+          "prerequisite",
+          "prerequisite\u207b\u00b9"
+        ],
+        "score": 0.38887779464357985
+      }
+    ],
+    "interacts,prerequisite\u207b\u00b9,prerequisite\u207b\u00b9": [
+      {
+        "nodes": [
+          "u_alice",
+          "transformers",
+          "pytorch",
+          "neural_networks"
+        ],
+        "relations": [
+          "interacts",
+          "prerequisite\u207b\u00b9",
+          "prerequisite\u207b\u00b9"
+        ],
+        "score": 0.2767519475638945
+      }
+    ]
+  },
+  "u_bob|typescript": {
+    "interacts,prerequisite": [
+      {
+        "nodes": [
+          "u_bob",
+          "javascript",
+          "typescript"
+        ],
+        "relations": [
+          "interacts",
+          "prerequisite"
+        ],
+        "score": 0.4007593906477488
+      }
+    ],
+    "interacts,prerequisite\u207b\u00b9": [
+      {
+        "nodes": [
+          "u_bob",
+          "nextjs",
+          "typescript"
+        ],
+        "relations": [
+          "interacts",
+          "prerequisite\u207b\u00b9"
+        ],
+        "score": 0.29012565721584443
+      }
+    ],
+    "interacts,prerequisite\u207b\u00b9,prerequisite": [
+      {
+        "nodes": [
+          "u_bob",
+          "react",
+          "javascript",
+          "typescript"
+        ],
+        "relations": [
+          "interacts",
+          "prerequisite\u207b\u00b9",
+          "prerequisite"
+        ],
+        "score": 0.3676936200464515
+      }
+    ],
+    "interacts,prerequisite,prerequisite\u207b\u00b9": [
+      {
+        "nodes": [
+          "u_bob",
+          "react",
+          "nextjs",
+          "typescript"
+        ],
+        "relations": [
+          "interacts",
+          "prerequisite",
+          "prerequisite\u207b\u00b9"
+        ],
+        "score": 0.2964155979359867
+      }
+    ]
+  },
+  "u_charlie|fastapi": {
+    "interacts,prerequisite": [
+      {
+        "nodes": [
+          "u_charlie",
+          "python",
+          "fastapi"
+        ],
+        "relations": [
+          "interacts",
+          "prerequisite"
+        ],
+        "score": 0.23015084451715703
+      }
+    ],
+    "interacts,related_to\u207b\u00b9": [
+      {
+        "nodes": [
+          "u_charlie",
+          "rag",
+          "fastapi"
+        ],
+        "relations": [
+          "interacts",
+          "related_to\u207b\u00b9"
+        ],
+        "score": 0.30247877649757265
+      }
+    ]
+  },
+  "u_diana|vector_db": {
+    "interacts,related_to": [
+      {
+        "nodes": [
+          "u_diana",
+          "sql",
+          "vector_db"
+        ],
+        "relations": [
+          "interacts",
+          "related_to"
+        ],
+        "score": 0.42207034497109064
+      }
+    ],
+    "interacts,prerequisite\u207b\u00b9,related_to": [
+      {
+        "nodes": [
+          "u_diana",
+          "database_indexing",
+          "sql",
+          "vector_db"
+        ],
+        "relations": [
+          "interacts",
+          "prerequisite\u207b\u00b9",
+          "related_to"
+        ],
+        "score": 0.4210536202946242
+      }
+    ]
+  },
+  "u_alice|python": {
+    "interacts,prerequisite,prerequisite\u207b\u00b9": [
+      {
+        "nodes": [
+          "u_alice",
+          "neural_networks",
+          "pytorch",
+          "python"
+        ],
+        "relations": [
+          "interacts",
+          "prerequisite",
+          "prerequisite\u207b\u00b9"
+        ],
+        "score": 0.38887779464357985
+      }
+    ],
+    "interacts,prerequisite\u207b\u00b9,prerequisite\u207b\u00b9": [
+      {
+        "nodes": [
+          "u_alice",
+          "transformers",
+          "pytorch",
+          "python"
+        ],
+        "relations": [
+          "interacts",
+          "prerequisite\u207b\u00b9",
+          "prerequisite\u207b\u00b9"
+        ],
+        "score": 0.3182442058819141
+      }
+    ]
+  },
+  "u_bob|react": {
+    "interacts,prerequisite": [
+      {
+        "nodes": [
+          "u_bob",
+          "javascript",
+          "react"
+        ],
+        "relations": [
+          "interacts",
+          "prerequisite"
+        ],
+        "score": 0.3346278494451542
+      }
+    ],
+    "interacts,prerequisite\u207b\u00b9": [
+      {
+        "nodes": [
+          "u_bob",
+          "nextjs",
+          "react"
+        ],
+        "relations": [
+          "interacts",
+          "prerequisite\u207b\u00b9"
+        ],
+        "score": 0.3027055386561289
+      }
+    ],
+    "interacts,prerequisite\u207b\u00b9,prerequisite": [
+      {
+        "nodes": [
+          "u_bob",
+          "typescript",
+          "javascript",
+          "react"
+        ],
+        "relations": [
+          "interacts",
+          "prerequisite\u207b\u00b9",
+          "prerequisite"
+        ],
+        "score": 0.3676936200464515
+      }
+    ],
+    "interacts,prerequisite,prerequisite\u207b\u00b9": [
+      {
+        "nodes": [
+          "u_bob",
+          "typescript",
+          "nextjs",
+          "react"
+        ],
+        "relations": [
+          "interacts",
+          "prerequisite",
+          "prerequisite\u207b\u00b9"
+        ],
+        "score": 0.2964155979359867
+      }
+    ]
+  },
+  "u_charlie|python": {
+    "interacts,prerequisite\u207b\u00b9": [
+      {
+        "nodes": [
+          "u_charlie",
+          "fastapi",
+          "python"
+        ],
+        "relations": [
+          "interacts",
+          "prerequisite\u207b\u00b9"
+        ],
+        "score": 0.23015084451715703
+      }
+    ],
+    "interacts,related_to\u207b\u00b9,prerequisite\u207b\u00b9": [
+      {
+        "nodes": [
+          "u_charlie",
+          "rag",
+          "fastapi",
+          "python"
+        ],
+        "relations": [
+          "interacts",
+          "related_to\u207b\u00b9",
+          "prerequisite\u207b\u00b9"
+        ],
+        "score": 0.26631481050736483
+      }
+    ]
+  },
+  "u_bob|nextjs": {
+    "interacts,prerequisite": [
+      {
+        "nodes": [
+          "u_bob",
+          "react",
+          "nextjs"
+        ],
+        "relations": [
+          "interacts",
+          "prerequisite"
+        ],
+        "score": 0.3027055386561289
+      },
+      {
+        "nodes": [
+          "u_bob",
+          "typescript",
+          "nextjs"
+        ],
+        "relations": [
+          "interacts",
+          "prerequisite"
+        ],
+        "score": 0.29012565721584443
+      }
+    ],
+    "interacts,prerequisite,prerequisite": [
+      {
+        "nodes": [
+          "u_bob",
+          "javascript",
+          "typescript",
+          "nextjs"
+        ],
+        "relations": [
+          "interacts",
+          "prerequisite",
+          "prerequisite"
+        ],
+        "score": 0.34544252393179664
+      },
+      {
+        "nodes": [
+          "u_bob",
+          "javascript",
+          "react",
+          "nextjs"
+        ],
+        "relations": [
+          "interacts",
+          "prerequisite",
+          "prerequisite"
+        ],
+        "score": 0.3186666940506416
+      }
+    ]
+  },
+  "u_diana|docker": {
+    "interacts,prerequisite,related_to": [
+      {
+        "nodes": [
+          "u_diana",
+          "python",
+          "fastapi",
+          "docker"
+        ],
+        "relations": [
+          "interacts",
+          "prerequisite",
+          "related_to"
+        ],
+        "score": 0.2498142465314226
+      }
+    ]
+  },
+  "u_diana|python": {
+    "interacts,related_to\u207b\u00b9,prerequisite\u207b\u00b9": [
+      {
+        "nodes": [
+          "u_diana",
+          "docker",
+          "fastapi",
+          "python"
+        ],
+        "relations": [
+          "interacts",
+          "related_to\u207b\u00b9",
+          "prerequisite\u207b\u00b9"
+        ],
+        "score": 0.2498142465314226
+      }
+    ]
+  },
+  "u_diana|database_indexing": {
+    "interacts,prerequisite": [
+      {
+        "nodes": [
+          "u_diana",
+          "sql",
+          "database_indexing"
+        ],
+        "relations": [
+          "interacts",
+          "prerequisite"
+        ],
+        "score": 0.4200368956181577
+      }
+    ],
+    "interacts,related_to\u207b\u00b9,prerequisite": [
+      {
+        "nodes": [
+          "u_diana",
+          "vector_db",
+          "sql",
+          "database_indexing"
+        ],
+        "relations": [
+          "interacts",
+          "related_to\u207b\u00b9",
+          "prerequisite"
+        ],
+        "score": 0.4210536202946242
+      }
+    ]
+  }
+}
