@@ -1,6 +1,6 @@
-# Recommendation Pipeline: Parts 1A–1C
+# Recommendation Pipeline: Parts 1A–2A
 
-Part 1A finds user-to-skill paths, Part 1B counts and filters their relation rules, and Part 1C scores and samples the filtered paths.
+Part 1A finds user-to-skill paths, Part 1B counts and filters their relation rules, and Part 1C scores and samples the filtered paths. Part 2 builds the neural network model (MANN) for recommendation.
 
 ## 1A: Rule Discovery & Path Finding
 
@@ -55,4 +55,29 @@ Run after 1B to consume `filtered_paths.json`:
 
 ```powershell
 python recommendation/part1c_path_scoring.py
+```
+
+---
+
+## Part 2: Global + Local Context Awareness (MANN)
+
+Implements Sections 3.2, 3.3, and 3.4.1 from Wu et al. (2022).
+
+### Files
+
+| File | Developer | Purpose |
+| :--- | :--- | :--- |
+| `part2_config.py` | Shared | Model hyperparameters and path definitions |
+| `part2_data.py` | Shared | Loaders for Part 1 JSON outputs + `GlobalRepr` / `LocalRepr` dataclasses |
+| `part2a_global_context.py` | **Dev A** | Bi-LSTM path encoder, rule pooling, multi-rule attention |
+| `test_part2a_global_context.py` | **Dev A** | Unit and integration tests for Global Context |
+| `part2b_local_context.py` | Dev B | 1-hop neighborhoods, leakage guard, neighbor attention |
+| `part2c_aggregation.py` | Together | Merges global & local representations (concat/sum/maxpool) |
+
+### Running Dev A Tests
+
+From `next-app`:
+
+```powershell
+python -m unittest recommendation.test_part2a_global_context
 ```
