@@ -16,6 +16,7 @@ import torch.nn as nn
 
 from part2_config import (
     EMB_DIM,
+    GRAPH_FILE,
     NODE_VECTORS_FILE,
     RULES_FILE,
     SAMPLED_PATHS_FILE,
@@ -157,6 +158,56 @@ def load_test_pairs(
     return test_set
 
 
+def load_graph_neighborhoods(
+    graph_file: Path | str = GRAPH_FILE,
+    test_pairs: set[tuple[str, str]] | None = None,
+) -> tuple[dict[str, list[str]], dict[str, list[str]]]:
+    """
+    Builds training neighborhoods V_u and V_v from graph triples (Sec 3.3).
+    Enforces LEAKAGE GUARD: strictly excludes every pair in test_pairs.
+
+    Returns:
+        user_to_items: dict[user_id, list[item_id]]
+        item_to_users: dict[item_id, list[user_id]]
+    """
+    path = Path(graph_file)
+    if not path.exists():
+        return {}, {}
+
+    if test_pairs is None:
+        test_pairs = load_test_pairs()
+
+    with path.open("r", encoding="utf-8") as f:
+        data = json.load(f)
+
+    triples = data.get("triples", []) if isinstance(data, dict) else []
+
+    user_to_items: dict[str, list[str]] = {}
+    item_to_users: dict[str, list[str]] = {}
+
+    for t in triples:
+        if not isinstance(t, dict):
+            continue
+        rel = t.get("relation")
+        head = str(t.get("head"))
+        tail = str(t.get("tail"))
+
+        # Only 'interacts' edges define user-item interaction neighborhoods
+        if rel == "interacts":
+            # LEAKAGE GUARD: Skip if this (user, item) pair was held out for testing
+            if (head, tail) in test_pairs:
+                continue
+
+            user_to_items.setdefault(head, []).append(tail)
+            item_to_users.setdefault(tail, []).append(head)
+
+    # Deduplicate while preserving order
+    user_to_items = {u: list(dict.fromkeys(items)) for u, items in user_to_items.items()}
+    item_to_users = {v: list(dict.fromkeys(users)) for v, users in item_to_users.items()}
+
+    return user_to_items, item_to_users
+
+
 def build_embedding_table(
     node_vectors: dict[str, list[float]],
     emb_dim: int = EMB_DIM,
@@ -226,10 +277,27 @@ def get_dummy_fixture(emb_dim: int = 16) -> dict[str, Any]:
 
     test_pairs = {("u1", "s4"), ("u2", "s5")}
 
+    # Training neighborhoods strictly excluding test_pairs (Leakage Guard)
+    user_to_items = {
+        "u1": ["s1", "s2"],      # interacts with s1, s2 (s4 held out)
+        "u2": ["s1", "s3"],      # interacts with s1, s3 (s5 held out)
+        "u3": [],                # Cold-start user (no items)
+    }
+
+    item_to_users = {
+        "s1": ["u1", "u2"],
+        "s2": ["u1"],
+        "s3": ["u2"],
+        "s4": [],                # Only interacted with u1 (which was held out)
+        "s5": [],                # Cold-start item
+    }
+
     return {
         "sampled_paths": sampled_paths,
         "node_vectors": node_vectors,
         "rules": rules,
         "test_pairs": test_pairs,
+        "user_to_items": user_to_items,
+        "item_to_users": item_to_users,
         "emb_dim": emb_dim,
     }

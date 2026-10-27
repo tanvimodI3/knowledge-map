@@ -74,10 +74,17 @@ Implements Sections 3.2, 3.3, and 3.4.1 from Wu et al. (2022).
 | `part2b_local_context.py` | Dev B | 1-hop neighborhoods, leakage guard, neighbor attention |
 | `part2c_aggregation.py` | Together | Merges global & local representations (concat/sum/maxpool) |
 
-### Running Dev A Tests
+### Running Tests
 
 From `next-app`:
 
 ```powershell
+# Run Dev A tests
 python -m unittest recommendation.test_part2a_global_context
+
+# Run Dev B tests
+python -m unittest recommendation.test_part2b_local_context
+
+# Run all Part 2 tests together
+python -m unittest discover -s recommendation -p "test_part2*.py"
 ```

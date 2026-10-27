@@ -7,6 +7,7 @@ from pathlib import Path
 
 # Paths
 HERE = Path(__file__).parent
+GRAPH_FILE = HERE / "sample_graph.json"
 SAMPLED_PATHS_FILE = HERE / "sampled_paths.json"
 NODE_VECTORS_FILE = HERE / "node_vectors.json"
 RULES_FILE = HERE / "rules.json"
