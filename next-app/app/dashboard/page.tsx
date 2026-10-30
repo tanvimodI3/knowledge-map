@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { Network, Plus, Search } from "lucide-react";
+import { Network, Plus, RefreshCw, Search } from "lucide-react";
 
 import { CreateMapDialog } from "@/components/dashboard/create-map-dialog";
 import { InsightsPanel } from "@/components/dashboard/insights-panel";
@@ -18,7 +18,7 @@ type SortKey = "recent" | "skills" | "name";
 
 export default function DashboardPage() {
   const { user } = useAuth();
-  const { maps } = useMaps();
+  const { maps, error, loading, refreshData } = useMaps();
   const [createOpen, setCreateOpen] = useState(false);
   const [query, setQuery] = useState("");
   const [sort, setSort] = useState<SortKey>("recent");
@@ -80,7 +80,23 @@ export default function DashboardPage() {
             </Tabs>
           </div>
 
-          {maps.length === 0 ? (
+          {error ? (
+            <Card className="items-center gap-3 border-destructive/30 px-6 py-16 text-center">
+              <Network className="size-8 text-destructive" strokeWidth={1.5} />
+              <div>
+                <p className="font-medium">Maps could not be loaded</p>
+                <p className="text-sm text-muted-foreground">{error}</p>
+              </div>
+              <Button
+                variant="outline"
+                onClick={() => void refreshData()}
+                disabled={loading}
+              >
+                <RefreshCw className={`size-4 ${loading ? "animate-spin" : ""}`} />
+                Try again
+              </Button>
+            </Card>
+          ) : maps.length === 0 ? (
             <Card className="items-center gap-3 border-dashed px-6 py-16 text-center">
               <Network className="size-8 text-muted-foreground" strokeWidth={1.5} />
               <div>

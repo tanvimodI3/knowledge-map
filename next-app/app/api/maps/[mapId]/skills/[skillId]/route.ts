@@ -20,7 +20,7 @@ export async function DELETE(request: Request, { params }: Params) {
   try {
     // ── verify map exists and is not deleted ──
     const mapSnap = await mRef.get();
-    if (!mapSnap.exists || mapSnap.data()?.deletedAt !== null) {
+    if (!mapSnap.exists || mapSnap.data()?.deletedAt) {
       return errorResponse(404, "NOT_FOUND", "Map not found");
     }
 

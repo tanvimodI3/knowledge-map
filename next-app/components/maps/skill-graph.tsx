@@ -37,7 +37,8 @@ export function SkillGraph({ skills, connections, selectedId, onSelect }: Props)
     <div>
       <svg
         viewBox={`0 0 ${W} ${H}`}
-        className="h-auto w-full"
+        className="block h-auto min-h-[360px] w-full"
+        preserveAspectRatio="xMidYMid meet"
         onClick={() => onSelect(null)} // clicking empty space clears the selection
       >
         <defs>
@@ -133,7 +134,7 @@ export function SkillGraph({ skills, connections, selectedId, onSelect }: Props)
                   textAnchor="middle"
                   className="select-none fill-foreground text-[11px]"
                 >
-                  {s.name}
+                  {s.name.length > 22 ? `${s.name.slice(0, 19)}…` : s.name}
                 </text>
               </g>
             </g>

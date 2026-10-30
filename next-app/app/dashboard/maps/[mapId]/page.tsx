@@ -13,17 +13,36 @@ import { AddSkillDialog } from "@/components/maps/add-skill-dialog";
 import { SkillDetailPanel } from "@/components/maps/skill-detail-panel";
 import { SkillGraph } from "@/components/maps/skill-graph";
 import { SkillList } from "@/components/maps/skill-list";
+import { RecommendationPanel } from "@/components/maps/recommendation-panel";
 import { cn } from "@/lib/utils";
 
 export default function MapPage() {
   const { mapId } = useParams<{ mapId: string }>();
-  const { maps } = useMaps();
+  const { maps, error, refreshData } = useMaps();
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [addOpen, setAddOpen] = useState(false);
 
   // BACKEND: fetch this single map (GET /api/maps/:mapId) instead of finding it in the
   // list, and render a skeleton while loading / a 404 state if it doesn't exist.
   const map = maps.find((m) => m.id === mapId);
+
+  if (error) {
+    return (
+      <Card className="items-center gap-3 px-6 py-16 text-center">
+        <Network className="size-8 text-destructive" strokeWidth={1.5} />
+        <p className="font-medium">Map could not be loaded</p>
+        <p className="text-sm text-muted-foreground">{error}</p>
+        <div className="flex gap-2">
+          <Button variant="outline" onClick={() => void refreshData()}>
+            Try again
+          </Button>
+          <Link href="/dashboard" className={buttonVariants({ variant: "outline" })}>
+            Back to dashboard
+          </Link>
+        </div>
+      </Card>
+    );
+  }
 
   if (!map) {
     return (
@@ -96,6 +115,8 @@ export default function MapPage() {
           <SkillList map={map} onSelect={setSelectedId} />
         )}
       </div>
+
+      <RecommendationPanel map={map} onSelectSkill={setSelectedId} />
 
       <AddSkillDialog
         map={map}

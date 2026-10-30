@@ -21,7 +21,7 @@ export async function GET(request: Request) {
             .get();
 
         const nonDeletedDocs = mapsSnap.docs
-            .filter((doc) => doc.data().deletedAt === null)
+            .filter((doc) => !doc.data().deletedAt)
             .sort((a, b) => {
                 const aTime = a.data().updatedAt?.toMillis?.() ?? 0;
                 const bTime = b.data().updatedAt?.toMillis?.() ?? 0;

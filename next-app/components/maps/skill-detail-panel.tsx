@@ -2,7 +2,6 @@
 
 import { useMemo, useState } from "react";
 import { Link2, X } from "lucide-react";
-import { toast } from "sonner";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -62,9 +61,7 @@ export function SkillDetailPanel({ map, skill, onSelect }: Props) {
   const total = Object.values(groups).reduce((n, g) => n + g.length, 0);
 
   function handleRemoveConnection(id: string) {
-    // BACKEND: await DELETE /api/maps/:mapId/connections/:id inside removeConnection().
     removeConnection(map.id, id);
-    toast("Connection removed");
   }
 
   function handleRemoveSkill() {
@@ -74,7 +71,6 @@ export function SkillDetailPanel({ map, skill, onSelect }: Props) {
     }
     removeSkill(map.id, skill.id);
     onSelect(null);
-    toast(`Removed “${skill.name}”`);
   }
 
   return (
@@ -190,11 +186,8 @@ function ConnectSkillDialog({
   }
 
   function handleSubmit() {
-    // BACKEND: send these as ONE batch (POST /api/maps/:mapId/connections/batch)
-    // rather than a request per link.
     const entries = Object.entries(links);
     entries.forEach(([otherId, choice]) => addConnection(map.id, skill.id, otherId, choice));
-    toast.success(`Added ${entries.length} connection${entries.length === 1 ? "" : "s"}`);
     handleOpenChange(false);
   }
 

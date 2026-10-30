@@ -23,6 +23,7 @@ interface MapsContextValue {
   maps: KnowledgeMap[];
   activity: ActivityItem[];
   loading: boolean;
+  error: string | null;
   createMap: (input: { title: string; description: string }) => Promise<KnowledgeMap>;
   deleteMap: (id: string) => KnowledgeMap | undefined;
   restoreMap: (map: KnowledgeMap) => void;
@@ -49,6 +50,7 @@ export function MapsProvider({ children }: { children: ReactNode }) {
   const [maps, setMaps] = useState<KnowledgeMap[]>([]);
   const [activity, setActivity] = useState<ActivityItem[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   async function getAuthHeaders(): Promise<HeadersInit> {
     if (!user) throw new Error("You must be signed in.");
@@ -60,9 +62,14 @@ export function MapsProvider({ children }: { children: ReactNode }) {
   }
 
   async function loadInitialData() {
-    if (!user) return;
+    if (!user) {
+      setLoading(false);
+      setError(null);
+      return;
+    }
     try {
       setLoading(true);
+      setError(null);
       const token = await user.getIdToken();
       const headers = { Authorization: `Bearer ${token}` };
 
@@ -74,6 +81,9 @@ export function MapsProvider({ children }: { children: ReactNode }) {
       if (mapsRes.ok) {
         const mapsData = await mapsRes.json();
         setMaps(mapsData.maps || []);
+      } else {
+        const body = await mapsRes.json().catch(() => null);
+        throw new Error(body?.error?.message || "Failed to load maps.");
       }
       if (actRes.ok) {
         const actData = await actRes.json();
@@ -81,7 +91,10 @@ export function MapsProvider({ children }: { children: ReactNode }) {
       }
     } catch (err) {
       console.error("Failed to load knowledge map data:", err);
-      toast.error("Failed to load knowledge map data.");
+      const message =
+        err instanceof Error ? err.message : "Failed to load knowledge map data.";
+      setError(message);
+      toast.error(message);
     } finally {
       setLoading(false);
     }
@@ -368,6 +381,7 @@ export function MapsProvider({ children }: { children: ReactNode }) {
         maps,
         activity,
         loading,
+        error,
         createMap,
         deleteMap,
         restoreMap,

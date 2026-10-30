@@ -20,7 +20,7 @@ export async function assembleMap(
     const data = mapSnap.data()!;
 
     // Treat soft-deleted maps as not found.
-    if (data.deletedAt !== null) return null;
+    if (data.deletedAt) return null;
 
     const [skillsSnap, connsSnap] = await Promise.all([
         mapRef.collection("skills").get(),

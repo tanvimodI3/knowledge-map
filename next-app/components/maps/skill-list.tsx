@@ -2,7 +2,6 @@
 
 import { useMemo, useState } from "react";
 import { Search } from "lucide-react";
-import { toast } from "sonner";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -105,7 +104,6 @@ export function SkillList({ map, onSelect }: Props) {
                   variant="outline"
                   onClick={() => {
                     addConnection(map.id, a.id, b.id, "related");
-                    toast.success(`Connected ${a.name} and ${b.name}`);
                   }}
                 >
                   Connect
