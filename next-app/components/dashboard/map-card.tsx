@@ -71,12 +71,22 @@ export function MapCard({ map }: { map: KnowledgeMap }) {
   const router = useRouter();
   const { deleteMap, restoreMap } = useMaps();
 
-  function handleDelete() {
-    const removed = deleteMap(map.id);
-    if (!removed) return;
-    toast(`Deleted “${removed.title}”`, {
-      action: { label: "Undo", onClick: () => restoreMap(removed) },
-    });
+  async function handleDelete() {
+    try {
+      const removed = await deleteMap(map.id);
+      toast(`Deleted “${removed.title}”`, {
+        action: {
+          label: "Undo",
+          onClick: () => {
+            void restoreMap(removed)
+              .then((restored) => toast.success(`Restored “${restored.title}”`))
+              .catch((err) => toast.error(err instanceof Error ? err.message : "Failed to restore map."));
+          },
+        },
+      });
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Failed to delete map.");
+    }
   }
 
   return (

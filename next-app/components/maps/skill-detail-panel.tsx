@@ -21,6 +21,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Separator } from "@/components/ui/separator";
+import { toast } from "sonner";
 import { useMaps } from "@/context/maps-context";
 import type { KnowledgeMap, RelationChoice, Skill } from "@/lib/knowledge-map/types";
 import { areConnected } from "@/lib/knowledge-map/utils";
@@ -60,17 +61,26 @@ export function SkillDetailPanel({ map, skill, onSelect }: Props) {
 
   const total = Object.values(groups).reduce((n, g) => n + g.length, 0);
 
-  function handleRemoveConnection(id: string) {
-    removeConnection(map.id, id);
+  async function handleRemoveConnection(id: string) {
+    try {
+      await removeConnection(map.id, id);
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Failed to remove connection.");
+    }
   }
 
-  function handleRemoveSkill() {
+  async function handleRemoveSkill() {
     if (!confirmingDelete) {
       setConfirmingDelete(true); // two-step confirm instead of a modal
       return;
     }
-    removeSkill(map.id, skill.id);
-    onSelect(null);
+    try {
+      await removeSkill(map.id, skill.id);
+      onSelect(null);
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Failed to remove skill.");
+      setConfirmingDelete(false);
+    }
   }
 
   return (
@@ -185,10 +195,18 @@ function ConnectSkillDialog({
     onOpenChange(next);
   }
 
-  function handleSubmit() {
+  async function handleSubmit() {
     const entries = Object.entries(links);
-    entries.forEach(([otherId, choice]) => addConnection(map.id, skill.id, otherId, choice));
-    handleOpenChange(false);
+    try {
+      await Promise.all(
+        entries.map(([otherId, choice]) =>
+          addConnection(map.id, skill.id, otherId, choice),
+        ),
+      );
+      handleOpenChange(false);
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Failed to create connections.");
+    }
   }
 
   return (

@@ -96,6 +96,11 @@ export default function DashboardPage() {
                 Try again
               </Button>
             </Card>
+          ) : loading ? (
+            <Card className="items-center gap-3 px-6 py-16 text-center">
+              <RefreshCw className="size-8 animate-spin text-muted-foreground" />
+              <p className="text-sm text-muted-foreground">Loading maps…</p>
+            </Card>
           ) : maps.length === 0 ? (
             <Card className="items-center gap-3 border-dashed px-6 py-16 text-center">
               <Network className="size-8 text-muted-foreground" strokeWidth={1.5} />

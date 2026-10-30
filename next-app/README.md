@@ -17,16 +17,24 @@ npm run dev
 Set the Firebase values in `.env.local` using `.env.example` as a template.
 Enable Email/Password and (if desired) Google sign-in in Firebase Authentication.
 
+The browser uses the Firebase client configuration. API routes require a
+verified Firebase ID token and use Firebase Admin credentials server-side.
+For local emulator development, set all emulator variables from
+`.env.example` and start both auth and Firestore emulators:
+
+```sh
+npm run emulators
+```
+
 ## Knowledge maps
 
 The authenticated `/dashboard` route lists maps, summary statistics, category
 insights, and recent activity. Create a map to open `/dashboard/maps/[mapId]`,
 where skills can be added, linked, searched, and removed.
 
-Map data currently lives in React state and resets on refresh. The store,
-types, and backend integration points are in `context/maps-context.tsx` and
-`lib/knowledge-map/`; replace the marked `BACKEND:` state operations with
-user-scoped API calls when a backend is available.
+Authenticated map data is loaded and persisted through the Next.js API routes
+under `app/api/`. The client sends the current Firebase ID token in the
+`Authorization` header; server routes derive ownership from the verified UID.
 
 UI components use the Base UI shadcn preset. Add additional components with:
 

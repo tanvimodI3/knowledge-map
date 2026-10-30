@@ -14,7 +14,7 @@ const MESSAGES: Record<string, string> = {
   "auth/invalid-api-key": "Invalid Firebase API key. Please check your .env.local configuration.",
   "auth/popup-closed-by-user": "Sign-in was cancelled.",
   "auth/too-many-requests": "Too many attempts. Wait a moment and try again.",
-  "auth/network-request-failed": "Network error. Check your connection.",
+  "auth/network-request-failed": "Firebase could not be reached. Check your internet connection and Firebase configuration.",
 };
 
 export function getAuthErrorMessage(error: unknown): string {

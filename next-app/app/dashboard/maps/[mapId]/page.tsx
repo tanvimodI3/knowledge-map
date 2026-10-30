@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { ArrowLeft, Network, Plus } from "lucide-react";
@@ -15,16 +15,54 @@ import { SkillGraph } from "@/components/maps/skill-graph";
 import { SkillList } from "@/components/maps/skill-list";
 import { RecommendationPanel } from "@/components/maps/recommendation-panel";
 import { cn } from "@/lib/utils";
+import type { KnowledgeMap } from "@/lib/knowledge-map/types";
 
 export default function MapPage() {
   const { mapId } = useParams<{ mapId: string }>();
-  const { maps, error, refreshData } = useMaps();
+  const { getMap, maps } = useMaps();
+  const [map, setMap] = useState<KnowledgeMap | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [notFound, setNotFound] = useState(false);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [addOpen, setAddOpen] = useState(false);
 
-  // BACKEND: fetch this single map (GET /api/maps/:mapId) instead of finding it in the
-  // list, and render a skeleton while loading / a 404 state if it doesn't exist.
-  const map = maps.find((m) => m.id === mapId);
+  async function loadMap() {
+    setLoading(true);
+    setError(null);
+    setNotFound(false);
+    try {
+      const loaded = await getMap(mapId);
+      setMap(loaded);
+    } catch (err) {
+      const message = err instanceof Error ? err.message : "Map could not be loaded.";
+      if (message === "Map not found") setNotFound(true);
+      else setError(message);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    setSelectedId(null);
+    void loadMap();
+    // Reload whenever the route map ID changes.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [mapId]);
+
+  useEffect(() => {
+    const updated = maps.find((item) => item.id === mapId);
+    if (updated) setMap(updated);
+  }, [maps, mapId]);
+
+  if (loading) {
+    return (
+      <Card className="items-center gap-3 px-6 py-16 text-center">
+        <Network className="size-8 animate-pulse text-muted-foreground" strokeWidth={1.5} />
+        <p className="text-sm text-muted-foreground">Loading map…</p>
+      </Card>
+    );
+  }
 
   if (error) {
     return (
@@ -33,7 +71,7 @@ export default function MapPage() {
         <p className="font-medium">Map could not be loaded</p>
         <p className="text-sm text-muted-foreground">{error}</p>
         <div className="flex gap-2">
-          <Button variant="outline" onClick={() => void refreshData()}>
+          <Button variant="outline" onClick={() => void loadMap()}>
             Try again
           </Button>
           <Link href="/dashboard" className={buttonVariants({ variant: "outline" })}>
@@ -44,7 +82,7 @@ export default function MapPage() {
     );
   }
 
-  if (!map) {
+  if (notFound || !map) {
     return (
       <Card className="items-center gap-3 px-6 py-16 text-center">
         <p className="font-medium">Map not found</p>

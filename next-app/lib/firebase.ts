@@ -20,7 +20,3 @@ if (typeof window !== "undefined" && process.env.NEXT_PUBLIC_USE_FIREBASE_EMULAT
     disableWarnings: true,
   });
 }
-
-if (typeof window !== "undefined") {
-  (window as any).auth = auth;
-}

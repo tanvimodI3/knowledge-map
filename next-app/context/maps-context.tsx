@@ -13,37 +13,43 @@ import { Loader2 } from "lucide-react";
 import { useAuth } from "@/context/auth-context";
 import type {
   ActivityItem,
+  Connection,
   KnowledgeMap,
   RelationChoice,
   Skill,
 } from "@/lib/knowledge-map/types";
-import { areConnected, choiceToEdge, newId } from "@/lib/knowledge-map/utils";
 
 interface MapsContextValue {
   maps: KnowledgeMap[];
   activity: ActivityItem[];
   loading: boolean;
   error: string | null;
+  getMap: (mapId: string) => Promise<KnowledgeMap>;
   createMap: (input: { title: string; description: string }) => Promise<KnowledgeMap>;
-  deleteMap: (id: string) => KnowledgeMap | undefined;
-  restoreMap: (map: KnowledgeMap) => void;
+  deleteMap: (id: string) => Promise<KnowledgeMap>;
+  restoreMap: (map: KnowledgeMap) => Promise<KnowledgeMap>;
   addSkill: (
     mapId: string,
     input: Omit<Skill, "id">,
     links: { skillId: string; choice: RelationChoice }[],
   ) => Promise<Skill>;
-  removeSkill: (mapId: string, skillId: string) => void;
+  removeSkill: (mapId: string, skillId: string) => Promise<void>;
   addConnection: (
     mapId: string,
     subjectId: string,
     otherId: string,
     choice: RelationChoice,
-  ) => void;
-  removeConnection: (mapId: string, connectionId: string) => void;
+  ) => Promise<Connection>;
+  removeConnection: (mapId: string, connectionId: string) => Promise<void>;
   refreshData: () => Promise<void>;
 }
 
 const MapsContext = createContext<MapsContextValue | undefined>(undefined);
+
+async function apiError(response: Response, fallback: string): Promise<Error> {
+  const body = await response.json().catch(() => null);
+  return new Error(body?.error?.message || fallback);
+}
 
 export function MapsProvider({ children }: { children: ReactNode }) {
   const { user } = useAuth();
@@ -56,43 +62,43 @@ export function MapsProvider({ children }: { children: ReactNode }) {
     if (!user) throw new Error("You must be signed in.");
     const token = await user.getIdToken();
     return {
-      "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
     };
   }
 
   async function loadInitialData() {
     if (!user) {
+      setMaps([]);
+      setActivity([]);
       setLoading(false);
       setError(null);
       return;
     }
+
     try {
       setLoading(true);
       setError(null);
-      const token = await user.getIdToken();
-      const headers = { Authorization: `Bearer ${token}` };
-
-      const [mapsRes, actRes] = await Promise.all([
-        fetch("/api/maps", { headers }),
-        fetch("/api/activity?limit=20", { headers }),
+      const headers = await getAuthHeaders();
+      const [mapsRes, activityRes] = await Promise.all([
+        fetch("/api/maps", { headers, cache: "no-store" }),
+        fetch("/api/activity?limit=20", { headers, cache: "no-store" }),
       ]);
 
-      if (mapsRes.ok) {
-        const mapsData = await mapsRes.json();
-        setMaps(mapsData.maps || []);
+      if (!mapsRes.ok) throw await apiError(mapsRes, "Failed to load maps.");
+      const mapsData = await mapsRes.json();
+      setMaps(Array.isArray(mapsData.maps) ? mapsData.maps : []);
+
+      if (activityRes.ok) {
+        const activityData = await activityRes.json();
+        setActivity(Array.isArray(activityData.activity) ? activityData.activity : []);
       } else {
-        const body = await mapsRes.json().catch(() => null);
-        throw new Error(body?.error?.message || "Failed to load maps.");
-      }
-      if (actRes.ok) {
-        const actData = await actRes.json();
-        setActivity(actData.activity || []);
+        setActivity([]);
       }
     } catch (err) {
-      console.error("Failed to load knowledge map data:", err);
-      const message =
-        err instanceof Error ? err.message : "Failed to load knowledge map data.";
+      const message = err instanceof Error ? err.message : "Failed to load knowledge map data.";
+      setMaps([]);
+      setActivity([]);
       setError(message);
       toast.error(message);
     } finally {
@@ -101,113 +107,90 @@ export function MapsProvider({ children }: { children: ReactNode }) {
   }
 
   useEffect(() => {
-    loadInitialData();
-  }, [user]);
+    void loadInitialData();
+    // Reload when the verified Firebase user changes.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user?.uid]);
 
   async function refreshActivity() {
     if (!user) return;
     try {
-      const token = await user.getIdToken();
-      const res = await fetch("/api/activity?limit=20", {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      if (res.ok) {
-        const data = await res.json();
-        setActivity(data.activity || []);
-      }
+      const headers = await getAuthHeaders();
+      const response = await fetch("/api/activity?limit=20", { headers, cache: "no-store" });
+      if (!response.ok) return;
+      const data = await response.json();
+      setActivity(Array.isArray(data.activity) ? data.activity : []);
     } catch {
-      // Non-fatal background refresh
+      // Activity is secondary and does not undo a successful mutation.
     }
   }
 
-  // Apply a local change to one map and bump its updatedAt.
-  function touch(mapId: string, update: (map: KnowledgeMap) => KnowledgeMap) {
-    setMaps((prev) =>
-      prev.map((m) =>
-        m.id === mapId ? { ...update(m), updatedAt: new Date().toISOString() } : m,
-      ),
-    );
+  async function getMap(mapId: string): Promise<KnowledgeMap> {
+    const headers = await getAuthHeaders();
+    const response = await fetch(`/api/maps/${encodeURIComponent(mapId)}`, {
+      headers,
+      cache: "no-store",
+    });
+    if (!response.ok) throw await apiError(response, "Failed to load map.");
+    const data = await response.json();
+    if (!data.map) throw new Error("The server returned an invalid map response.");
+
+    setMaps((previous) => {
+      const exists = previous.some((map) => map.id === data.map.id);
+      return exists
+        ? previous.map((map) => (map.id === data.map.id ? data.map : map))
+        : [...previous, data.map];
+    });
+    return data.map;
   }
 
-  async function createMap({
-    title,
-    description,
-  }: {
-    title: string;
-    description: string;
-  }): Promise<KnowledgeMap> {
+  async function createMap(input: { title: string; description: string }): Promise<KnowledgeMap> {
     const headers = await getAuthHeaders();
-    const res = await fetch("/api/maps", {
+    const response = await fetch("/api/maps", {
       method: "POST",
       headers,
-      body: JSON.stringify({ title, description }),
+      body: JSON.stringify(input),
     });
-
-    if (!res.ok) {
-      const errData = await res.json().catch(() => ({}));
-      throw new Error(errData?.error?.message || "Failed to create map");
-    }
-
-    const { map } = await res.json();
-    setMaps((prev) => [map, ...prev]);
-    refreshActivity();
-    return map;
+    if (!response.ok) throw await apiError(response, "Failed to create map.");
+    const data = await response.json();
+    setMaps((previous) => [data.map, ...previous.filter((map) => map.id !== data.map.id)]);
+    void refreshActivity();
+    return data.map;
   }
 
-  function deleteMap(id: string): KnowledgeMap | undefined {
-    const target = maps.find((m) => m.id === id);
-    if (!target) return undefined;
+  async function deleteMap(id: string): Promise<KnowledgeMap> {
+    const target = maps.find((map) => map.id === id);
+    if (!target) throw new Error("Map not found.");
 
-    // Optimistic remove
-    setMaps((prev) => prev.filter((m) => m.id !== id));
+    const headers = await getAuthHeaders();
+    const response = await fetch(`/api/maps/${encodeURIComponent(id)}`, {
+      method: "DELETE",
+      headers,
+    });
+    if (!response.ok) throw await apiError(response, "Failed to delete map.");
 
-    // Call backend API
-    (async () => {
-      try {
-        const headers = await getAuthHeaders();
-        const res = await fetch(`/api/maps/${id}`, {
-          method: "DELETE",
-          headers,
-        });
-        if (!res.ok) {
-          throw new Error("Failed to delete map");
-        }
-        refreshActivity();
-      } catch (err: unknown) {
-        const msg = err instanceof Error ? err.message : "Failed to delete map";
-        toast.error(msg);
-        // Rollback
-        setMaps((prev) => [target, ...prev]);
-      }
-    })();
-
+    setMaps((previous) => previous.filter((map) => map.id !== id));
+    void refreshActivity();
     return target;
   }
 
-  function restoreMap(map: KnowledgeMap) {
-    // Optimistic restore
-    setMaps((prev) => (prev.some((m) => m.id === map.id) ? prev : [map, ...prev]));
+  async function restoreMap(map: KnowledgeMap): Promise<KnowledgeMap> {
+    const headers = await getAuthHeaders();
+    const response = await fetch(`/api/maps/${encodeURIComponent(map.id)}`, {
+      method: "PATCH",
+      headers,
+      body: JSON.stringify({ deleted: false }),
+    });
+    if (!response.ok) throw await apiError(response, "Failed to restore map.");
+    const data = await response.json();
 
-    // Call backend API
-    (async () => {
-      try {
-        const headers = await getAuthHeaders();
-        const res = await fetch(`/api/maps/${map.id}`, {
-          method: "PATCH",
-          headers,
-          body: JSON.stringify({ deleted: false }),
-        });
-        if (!res.ok) {
-          throw new Error("Failed to restore map");
-        }
-        refreshActivity();
-      } catch (err: unknown) {
-        const msg = err instanceof Error ? err.message : "Failed to restore map";
-        toast.error(msg);
-        // Rollback
-        setMaps((prev) => prev.filter((m) => m.id !== map.id));
-      }
-    })();
+    setMaps((previous) =>
+      previous.some((item) => item.id === data.map.id)
+        ? previous.map((item) => (item.id === data.map.id ? data.map : item))
+        : [data.map, ...previous],
+    );
+    void refreshActivity();
+    return data.map;
   }
 
   async function addSkill(
@@ -216,7 +199,7 @@ export function MapsProvider({ children }: { children: ReactNode }) {
     links: { skillId: string; choice: RelationChoice }[],
   ): Promise<Skill> {
     const headers = await getAuthHeaders();
-    const res = await fetch(`/api/maps/${mapId}/skills`, {
+    const response = await fetch(`/api/maps/${encodeURIComponent(mapId)}/skills`, {
       method: "POST",
       headers,
       body: JSON.stringify({
@@ -226,148 +209,139 @@ export function MapsProvider({ children }: { children: ReactNode }) {
         links,
       }),
     });
+    if (!response.ok) throw await apiError(response, "Failed to add skill.");
+    const data = await response.json();
 
-    if (!res.ok) {
-      const errData = await res.json().catch(() => ({}));
-      throw new Error(errData?.error?.message || "Failed to add skill");
-    }
-
-    const { skill, connections } = await res.json();
-
-    touch(mapId, (m) => ({
-      ...m,
-      skills: [...m.skills, skill],
-      connections: [...m.connections, ...connections],
-    }));
-
-    refreshActivity();
-    return skill;
-  }
-
-  function removeSkill(mapId: string, skillId: string) {
-    const currentMap = maps.find((m) => m.id === mapId);
-    if (!currentMap) return;
-
-    // Optimistic remove
-    touch(mapId, (m) => ({
-      ...m,
-      skills: m.skills.filter((s) => s.id !== skillId),
-      connections: m.connections.filter(
-        (c) => c.sourceId !== skillId && c.targetId !== skillId,
+    setMaps((previous) =>
+      previous.map((map) =>
+        map.id === mapId
+          ? {
+              ...map,
+              skills: [...map.skills.filter((skill) => skill.id !== data.skill.id), data.skill],
+              connections: [
+                ...map.connections.filter(
+                  (connection) =>
+                    !data.connections.some((created: Connection) => created.id === connection.id),
+                ),
+                ...data.connections,
+              ],
+              updatedAt: new Date().toISOString(),
+            }
+          : map,
       ),
-    }));
-
-    (async () => {
-      try {
-        const headers = await getAuthHeaders();
-        const res = await fetch(`/api/maps/${mapId}/skills/${skillId}`, {
-          method: "DELETE",
-          headers,
-        });
-        if (!res.ok) throw new Error("Failed to remove skill");
-        refreshActivity();
-      } catch (err: unknown) {
-        const msg = err instanceof Error ? err.message : "Failed to remove skill";
-        toast.error(msg);
-        // Rollback
-        setMaps((prev) => prev.map((m) => (m.id === mapId ? currentMap : m)));
-      }
-    })();
+    );
+    void refreshActivity();
+    return data.skill;
   }
 
-  function addConnection(
+  async function removeSkill(mapId: string, skillId: string): Promise<void> {
+    const headers = await getAuthHeaders();
+    const response = await fetch(
+      `/api/maps/${encodeURIComponent(mapId)}/skills/${encodeURIComponent(skillId)}`,
+      { method: "DELETE", headers },
+    );
+    if (!response.ok) throw await apiError(response, "Failed to remove skill.");
+
+    setMaps((previous) =>
+      previous.map((map) =>
+        map.id === mapId
+          ? {
+              ...map,
+              skills: map.skills.filter((skill) => skill.id !== skillId),
+              connections: map.connections.filter(
+                (connection) =>
+                  connection.sourceId !== skillId && connection.targetId !== skillId,
+              ),
+              updatedAt: new Date().toISOString(),
+            }
+          : map,
+      ),
+    );
+    void refreshActivity();
+  }
+
+  async function addConnection(
     mapId: string,
     subjectId: string,
     otherId: string,
     choice: RelationChoice,
-  ) {
-    if (subjectId === otherId) return;
-    const currentMap = maps.find((m) => m.id === mapId);
-    if (!currentMap) return;
+  ): Promise<Connection> {
+    if (subjectId === otherId) throw new Error("Cannot connect a skill to itself.");
 
-    const edge = choiceToEdge(choice, subjectId, otherId);
-    if (areConnected(currentMap.connections, subjectId, otherId)) return;
+    const currentMap = maps.find((map) => map.id === mapId);
+    if (!currentMap) throw new Error("Map not found.");
+    if (
+      currentMap.connections.some(
+        (connection) =>
+          (connection.sourceId === subjectId && connection.targetId === otherId) ||
+          (connection.sourceId === otherId && connection.targetId === subjectId),
+      )
+    ) {
+      throw new Error("These skills are already connected.");
+    }
 
-    // Temporary optimistic ID
-    const tempId = newId();
-    const tempConn = { id: tempId, ...edge };
+    let sourceId = subjectId;
+    let targetId = otherId;
+    let type: "prerequisite" | "related" = "related";
+    if (choice === "needs") {
+      sourceId = otherId;
+      targetId = subjectId;
+      type = "prerequisite";
+    } else if (choice === "leads-to") {
+      sourceId = subjectId;
+      targetId = otherId;
+      type = "prerequisite";
+    }
 
-    touch(mapId, (m) => ({
-      ...m,
-      connections: [...m.connections, tempConn],
-    }));
+    const headers = await getAuthHeaders();
+    const response = await fetch(`/api/maps/${encodeURIComponent(mapId)}/connections`, {
+      method: "POST",
+      headers,
+      body: JSON.stringify({ sourceId, targetId, type }),
+    });
+    if (!response.ok) throw await apiError(response, "Failed to create connection.");
+    const data = await response.json();
 
-    (async () => {
-      try {
-        const headers = await getAuthHeaders();
-        const res = await fetch(`/api/maps/${mapId}/connections`, {
-          method: "POST",
-          headers,
-          body: JSON.stringify({
-            sourceId: edge.sourceId,
-            targetId: edge.targetId,
-            type: edge.type,
-          }),
-        });
-
-        if (!res.ok) {
-          const errData = await res.json().catch(() => ({}));
-          throw new Error(errData?.error?.message || "Failed to create connection");
-        }
-
-        const { connection } = await res.json();
-        touch(mapId, (m) => ({
-          ...m,
-          connections: m.connections.map((c) => (c.id === tempId ? connection : c)),
-        }));
-        refreshActivity();
-      } catch (err: unknown) {
-        const msg = err instanceof Error ? err.message : "Failed to connect skills";
-        toast.error(msg);
-        // Rollback
-        touch(mapId, (m) => ({
-          ...m,
-          connections: m.connections.filter((c) => c.id !== tempId),
-        }));
-      }
-    })();
+    setMaps((previous) =>
+      previous.map((map) =>
+        map.id === mapId
+          ? {
+              ...map,
+              connections: [...map.connections, data.connection],
+              updatedAt: new Date().toISOString(),
+            }
+          : map,
+      ),
+    );
+    void refreshActivity();
+    return data.connection;
   }
 
-  function removeConnection(mapId: string, connectionId: string) {
-    const currentMap = maps.find((m) => m.id === mapId);
-    if (!currentMap) return;
-    const targetConn = currentMap.connections.find((c) => c.id === connectionId);
+  async function removeConnection(mapId: string, connectionId: string): Promise<void> {
+    const headers = await getAuthHeaders();
+    const response = await fetch(
+      `/api/maps/${encodeURIComponent(mapId)}/connections/${encodeURIComponent(connectionId)}`,
+      { method: "DELETE", headers },
+    );
+    if (!response.ok) throw await apiError(response, "Failed to remove connection.");
 
-    // Optimistic remove
-    touch(mapId, (m) => ({
-      ...m,
-      connections: m.connections.filter((c) => c.id !== connectionId),
-    }));
-
-    (async () => {
-      try {
-        const headers = await getAuthHeaders();
-        const res = await fetch(`/api/maps/${mapId}/connections/${connectionId}`, {
-          method: "DELETE",
-          headers,
-        });
-        if (!res.ok) throw new Error("Failed to remove connection");
-        refreshActivity();
-      } catch (err: unknown) {
-        const msg = err instanceof Error ? err.message : "Failed to remove connection";
-        toast.error(msg);
-        // Rollback
-        if (targetConn) {
-          touch(mapId, (m) => ({
-            ...m,
-            connections: [...m.connections, targetConn],
-          }));
-        }
-      }
-    })();
+    setMaps((previous) =>
+      previous.map((map) =>
+        map.id === mapId
+          ? {
+              ...map,
+              connections: map.connections.filter(
+                (connection) => connection.id !== connectionId,
+              ),
+              updatedAt: new Date().toISOString(),
+            }
+          : map,
+      ),
+    );
+    void refreshActivity();
   }
 
-  if (loading) {
+  if (loading && !user) {
     return (
       <div className="flex min-h-[50vh] items-center justify-center">
         <Loader2 className="size-6 animate-spin text-muted-foreground" />
@@ -382,6 +356,7 @@ export function MapsProvider({ children }: { children: ReactNode }) {
         activity,
         loading,
         error,
+        getMap,
         createMap,
         deleteMap,
         restoreMap,

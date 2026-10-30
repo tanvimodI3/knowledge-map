@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { toast } from "sonner";
 import { useMaps } from "@/context/maps-context";
 import type { KnowledgeMap } from "@/lib/knowledge-map/types";
 import { suggestConnections } from "@/lib/knowledge-map/utils";
@@ -103,7 +104,9 @@ export function SkillList({ map, onSelect }: Props) {
                   size="sm"
                   variant="outline"
                   onClick={() => {
-                    addConnection(map.id, a.id, b.id, "related");
+                    void addConnection(map.id, a.id, b.id, "related").catch((err) =>
+                      toast.error(err instanceof Error ? err.message : "Failed to create connection."),
+                    );
                   }}
                 >
                   Connect
