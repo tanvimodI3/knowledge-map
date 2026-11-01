@@ -11,8 +11,12 @@ import tempfile
 from pathlib import Path
 from typing import Any
 
-from part1b_rule_filtering import run_part_1b
-from part1c_path_scoring import get_node_embeddings, score_path
+try:
+    from .part1b_rule_filtering import run_part_1b
+    from .part1c_path_scoring import get_node_embeddings, score_path
+except ImportError:
+    from part1b_rule_filtering import run_part_1b
+    from part1c_path_scoring import get_node_embeddings, score_path
 
 
 def build_recommendation(payload: dict[str, Any]) -> dict[str, Any]:

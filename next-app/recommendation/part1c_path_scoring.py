@@ -18,6 +18,8 @@ Run:
 """
 
 import json
+import hashlib
+import math
 import re
 import sys
 from pathlib import Path
@@ -105,30 +107,42 @@ def node_name_from_id(node_id: str) -> str:
     return name
 
 
-def get_node_embeddings(node_ids: list[str]) -> dict[str, list[float]]:
+def get_node_embeddings(
+    node_ids: list[str],
+    node_names: dict[str, str] | None = None,
+) -> dict[str, list[float]]:
     """
     Compute sentence-transformer embeddings for every node's readable name.
     Returns: {node_id: [float, ...]}
     Vectors are unit-normalised (normalize_embeddings=True).
     """
+    names = [
+        node_names[nid] if node_names and nid in node_names else node_name_from_id(nid)
+        for nid in node_ids
+    ]
     try:
         from sentence_transformers import SentenceTransformer  # type: ignore
-    except ImportError:
-        sys.exit(
-            "[1C] ERROR: sentence-transformers is not installed.\n"
-            "       Run:  pip install sentence-transformers"
-        )
 
-    print(f"[1C] Loading sentence-transformer model '{EMBEDDING_MODEL}' ...")
-    model = SentenceTransformer(EMBEDDING_MODEL)
-
-    names = [node_name_from_id(nid) for nid in node_ids]
-    print(f"[1C] Embedding {len(node_ids)} unique nodes ...")
-    vectors = model.encode(names, show_progress_bar=True, normalize_embeddings=True)
-
-    node_vectors: dict[str, list[float]] = {
-        nid: vec.tolist() for nid, vec in zip(node_ids, vectors)
-    }
+        print(f"[1C] Loading sentence-transformer model '{EMBEDDING_MODEL}' ...")
+        model = SentenceTransformer(EMBEDDING_MODEL)
+        print(f"[1C] Embedding {len(node_ids)} unique nodes ...")
+        vectors = model.encode(names, show_progress_bar=True, normalize_embeddings=True)
+        node_vectors: dict[str, list[float]] = {
+            nid: vec.tolist() for nid, vec in zip(node_ids, vectors)
+        }
+    except (ImportError, ModuleNotFoundError):
+        # No external model is required for live recommendations. Use a
+        # deterministic fallback so generation remains available in minimal deployments.
+        print("[1C] sentence-transformers unavailable; using deterministic text vectors")
+        node_vectors = {}
+        for nid, name in zip(node_ids, names):
+            seed = hashlib.sha256(name.strip().lower().encode("utf-8")).digest()
+            vector = [
+                ((seed[index % len(seed)] / 255.0) * 2.0 - 1.0)
+                for index in range(64)
+            ]
+            magnitude = math.sqrt(sum(value * value for value in vector)) or 1.0
+            node_vectors[nid] = [value / magnitude for value in vector]
     return node_vectors
 
 

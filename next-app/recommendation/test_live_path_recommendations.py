@@ -52,9 +52,16 @@ class LivePathRecommendationTests(unittest.TestCase):
                 live_path_recommendations,
                 "get_node_embeddings",
                 return_value=vectors,
-            ),
+            ) as get_embeddings,
         ):
             result = live_path_recommendations.build_recommendation(payload)
+            get_embeddings.assert_called_once()
+            embedding_args = get_embeddings.call_args.args
+            self.assertEqual(len(embedding_args), 2)
+            self.assertEqual(
+                embedding_args[1]["a"],
+                "a",
+            )
 
         self.assertEqual(len(result["options"]), 3)
         self.assertEqual(result["options"][0]["item"], "b")

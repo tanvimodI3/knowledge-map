@@ -142,14 +142,16 @@ export function RecommendationPanel({ map, onSelectSkill }: Props) {
     return names.get(option.item) ?? option.item;
   }
 
-  function explainContext(option: RankedPath) {
-    const globalContext = "globalContext" in option ? Boolean((option as RankedPath & { globalContext?: boolean }).globalContext) : undefined;
-    const localContext = "localContext" in option ? Boolean((option as RankedPath & { localContext?: boolean }).localContext) : undefined;
-    if (globalContext === undefined && localContext === undefined) return "Context metadata not returned";
-    if (globalContext && localContext) return "Global + Local";
-    if (globalContext) return "Global only";
-    if (localContext) return "Local only";
-    return "Neither available";
+  function explainContext(_option: RankedPath) {
+    return "Suggested from relationships and paths in this knowledge map.";
+  }
+
+  function readablePath(option: RankedPath) {
+    return option.nodes.map((id, index) =>
+      index === 0 && id.startsWith("u_")
+        ? "You"
+        : names.get(id) ?? id,
+    ).join(" → ");
   }
 
   return (
@@ -190,25 +192,13 @@ export function RecommendationPanel({ map, onSelectSkill }: Props) {
                 </div>
                 <Badge variant="outline">Skill</Badge>
               </div>
-              <p className="text-sm"><span className="text-muted-foreground">Structural score:</span> {selected.score.toFixed(4)}</p>
-              <p className="text-xs text-amber-700">Untrained structural ranking—not a validated model prediction</p>
-              <p className="text-xs text-muted-foreground">{explainContext(selected)}</p>
-              {selected.ruleKey && (
-                <p className="text-xs"><span className="text-muted-foreground">Top rule:</span> {selected.ruleKey}</p>
-              )}
+              <p className="text-xs text-muted-foreground">
+                This ranks likely next skills using the paths already in your map. It is not an AI prediction or learning assessment.
+              </p>
               {selected.nodes.length > 0 && (
-                <p className="text-xs"><span className="text-muted-foreground">Graph path:</span> {selected.nodes.map((id) => names.get(id) ?? id).join(" → ")}</p>
+                <p className="text-xs"><span className="text-muted-foreground">Why it may be next:</span> {readablePath(selected)}</p>
               )}
-              <p className="text-xs text-muted-foreground">
-                Relations: {selected.relations.join(" → ") || "None"}
-              </p>
             </div>
-
-            {recommendation.summary && (
-              <p className="text-xs text-muted-foreground">
-                Filter: {recommendation.summary.selectedFilter === "chi_square" ? "chi-square" : "frequency"} · {recommendation.summary.rankedPathCount} ranked paths
-              </p>
-            )}
 
             {options.length > 1 ? (
               <div className="space-y-2">
@@ -231,9 +221,8 @@ export function RecommendationPanel({ map, onSelectSkill }: Props) {
                           </span>
                           <Badge variant="outline">Skill</Badge>
                         </span>
-                        <span className="mt-1 block text-xs text-muted-foreground">Score {option.score.toFixed(4)} · {explainContext(option)}</span>
-                        {option.ruleKey && <span className="mt-1 block text-xs">Rule: {option.ruleKey}</span>}
-                        {option.nodes.length > 0 && <span className="mt-1 block text-xs">Path: {option.nodes.map((id) => names.get(id) ?? id).join(" → ")}</span>}
+                        <span className="mt-1 block text-xs text-muted-foreground">{explainContext(option)}</span>
+                        {option.nodes.length > 0 && <span className="mt-1 block text-xs">Path: {readablePath(option)}</span>}
                       </button>
                     ))}
                   </div>
