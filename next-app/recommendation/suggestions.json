@@ -1,0 +1,386 @@
+{
+  "u_alice": [
+    {
+      "item": "linear_algebra",
+      "name": "Linear Algebra",
+      "score": 0.5641,
+      "topRule": "none",
+      "hasGlobal": false,
+      "hasLocal": true
+    },
+    {
+      "item": "probability",
+      "name": "Probability & Statistics",
+      "score": 0.5641,
+      "topRule": "none",
+      "hasGlobal": false,
+      "hasLocal": true
+    },
+    {
+      "item": "pytorch",
+      "name": "PyTorch",
+      "score": 0.5641,
+      "topRule": "none",
+      "hasGlobal": false,
+      "hasLocal": true
+    },
+    {
+      "item": "vector_db",
+      "name": "Vector Databases",
+      "score": 0.5231,
+      "topRule": "none",
+      "hasGlobal": false,
+      "hasLocal": true
+    },
+    {
+      "item": "docker",
+      "name": "Docker",
+      "score": 0.5231,
+      "topRule": "none",
+      "hasGlobal": false,
+      "hasLocal": true
+    },
+    {
+      "item": "database_indexing",
+      "name": "Database Indexing",
+      "score": 0.5231,
+      "topRule": "none",
+      "hasGlobal": false,
+      "hasLocal": true
+    },
+    {
+      "item": "rag",
+      "name": "RAG (Retrieval Augmented Generation)",
+      "score": 0.5227,
+      "topRule": "none",
+      "hasGlobal": false,
+      "hasLocal": true
+    },
+    {
+      "item": "fastapi",
+      "name": "FastAPI",
+      "score": 0.5227,
+      "topRule": "none",
+      "hasGlobal": false,
+      "hasLocal": true
+    },
+    {
+      "item": "sql",
+      "name": "SQL",
+      "score": 0.5221,
+      "topRule": "none",
+      "hasGlobal": false,
+      "hasLocal": true
+    },
+    {
+      "item": "react",
+      "name": "React",
+      "score": 0.5218,
+      "topRule": "none",
+      "hasGlobal": false,
+      "hasLocal": true
+    },
+    {
+      "item": "javascript",
+      "name": "JavaScript",
+      "score": 0.521,
+      "topRule": "none",
+      "hasGlobal": false,
+      "hasLocal": true
+    },
+    {
+      "item": "typescript",
+      "name": "TypeScript",
+      "score": 0.521,
+      "topRule": "none",
+      "hasGlobal": false,
+      "hasLocal": true
+    },
+    {
+      "item": "nextjs",
+      "name": "Next.js",
+      "score": 0.521,
+      "topRule": "none",
+      "hasGlobal": false,
+      "hasLocal": true
+    }
+  ],
+  "u_bob": [
+    {
+      "item": "linear_algebra",
+      "name": "Linear Algebra",
+      "score": 0.5636,
+      "topRule": "none",
+      "hasGlobal": false,
+      "hasLocal": true
+    },
+    {
+      "item": "probability",
+      "name": "Probability & Statistics",
+      "score": 0.5636,
+      "topRule": "none",
+      "hasGlobal": false,
+      "hasLocal": true
+    },
+    {
+      "item": "pytorch",
+      "name": "PyTorch",
+      "score": 0.5636,
+      "topRule": "none",
+      "hasGlobal": false,
+      "hasLocal": true
+    },
+    {
+      "item": "vector_db",
+      "name": "Vector Databases",
+      "score": 0.5227,
+      "topRule": "none",
+      "hasGlobal": false,
+      "hasLocal": true
+    },
+    {
+      "item": "docker",
+      "name": "Docker",
+      "score": 0.5227,
+      "topRule": "none",
+      "hasGlobal": false,
+      "hasLocal": true
+    },
+    {
+      "item": "database_indexing",
+      "name": "Database Indexing",
+      "score": 0.5227,
+      "topRule": "none",
+      "hasGlobal": false,
+      "hasLocal": true
+    },
+    {
+      "item": "rag",
+      "name": "RAG (Retrieval Augmented Generation)",
+      "score": 0.5223,
+      "topRule": "none",
+      "hasGlobal": false,
+      "hasLocal": true
+    },
+    {
+      "item": "fastapi",
+      "name": "FastAPI",
+      "score": 0.5223,
+      "topRule": "none",
+      "hasGlobal": false,
+      "hasLocal": true
+    },
+    {
+      "item": "python",
+      "name": "Python",
+      "score": 0.5221,
+      "topRule": "none",
+      "hasGlobal": false,
+      "hasLocal": true
+    },
+    {
+      "item": "neural_networks",
+      "name": "Neural Networks",
+      "score": 0.5215,
+      "topRule": "none",
+      "hasGlobal": false,
+      "hasLocal": true
+    },
+    {
+      "item": "transformers",
+      "name": "Transformers",
+      "score": 0.5215,
+      "topRule": "none",
+      "hasGlobal": false,
+      "hasLocal": true
+    }
+  ],
+  "u_charlie": [
+    {
+      "item": "linear_algebra",
+      "name": "Linear Algebra",
+      "score": 0.5639,
+      "topRule": "none",
+      "hasGlobal": false,
+      "hasLocal": true
+    },
+    {
+      "item": "probability",
+      "name": "Probability & Statistics",
+      "score": 0.5639,
+      "topRule": "none",
+      "hasGlobal": false,
+      "hasLocal": true
+    },
+    {
+      "item": "pytorch",
+      "name": "PyTorch",
+      "score": 0.5639,
+      "topRule": "none",
+      "hasGlobal": false,
+      "hasLocal": true
+    },
+    {
+      "item": "vector_db",
+      "name": "Vector Databases",
+      "score": 0.523,
+      "topRule": "none",
+      "hasGlobal": false,
+      "hasLocal": true
+    },
+    {
+      "item": "docker",
+      "name": "Docker",
+      "score": 0.523,
+      "topRule": "none",
+      "hasGlobal": false,
+      "hasLocal": true
+    },
+    {
+      "item": "database_indexing",
+      "name": "Database Indexing",
+      "score": 0.523,
+      "topRule": "none",
+      "hasGlobal": false,
+      "hasLocal": true
+    },
+    {
+      "item": "sql",
+      "name": "SQL",
+      "score": 0.5219,
+      "topRule": "none",
+      "hasGlobal": false,
+      "hasLocal": true
+    },
+    {
+      "item": "neural_networks",
+      "name": "Neural Networks",
+      "score": 0.5218,
+      "topRule": "none",
+      "hasGlobal": false,
+      "hasLocal": true
+    },
+    {
+      "item": "transformers",
+      "name": "Transformers",
+      "score": 0.5218,
+      "topRule": "none",
+      "hasGlobal": false,
+      "hasLocal": true
+    },
+    {
+      "item": "javascript",
+      "name": "JavaScript",
+      "score": 0.5209,
+      "topRule": "none",
+      "hasGlobal": false,
+      "hasLocal": true
+    },
+    {
+      "item": "typescript",
+      "name": "TypeScript",
+      "score": 0.5209,
+      "topRule": "none",
+      "hasGlobal": false,
+      "hasLocal": true
+    },
+    {
+      "item": "nextjs",
+      "name": "Next.js",
+      "score": 0.5209,
+      "topRule": "none",
+      "hasGlobal": false,
+      "hasLocal": true
+    }
+  ],
+  "u_diana": [
+    {
+      "item": "linear_algebra",
+      "name": "Linear Algebra",
+      "score": 0.5638,
+      "topRule": "none",
+      "hasGlobal": false,
+      "hasLocal": true
+    },
+    {
+      "item": "probability",
+      "name": "Probability & Statistics",
+      "score": 0.5638,
+      "topRule": "none",
+      "hasGlobal": false,
+      "hasLocal": true
+    },
+    {
+      "item": "pytorch",
+      "name": "PyTorch",
+      "score": 0.5638,
+      "topRule": "none",
+      "hasGlobal": false,
+      "hasLocal": true
+    },
+    {
+      "item": "rag",
+      "name": "RAG (Retrieval Augmented Generation)",
+      "score": 0.5224,
+      "topRule": "none",
+      "hasGlobal": false,
+      "hasLocal": true
+    },
+    {
+      "item": "fastapi",
+      "name": "FastAPI",
+      "score": 0.5224,
+      "topRule": "none",
+      "hasGlobal": false,
+      "hasLocal": true
+    },
+    {
+      "item": "neural_networks",
+      "name": "Neural Networks",
+      "score": 0.5216,
+      "topRule": "none",
+      "hasGlobal": false,
+      "hasLocal": true
+    },
+    {
+      "item": "transformers",
+      "name": "Transformers",
+      "score": 0.5216,
+      "topRule": "none",
+      "hasGlobal": false,
+      "hasLocal": true
+    },
+    {
+      "item": "react",
+      "name": "React",
+      "score": 0.5215,
+      "topRule": "none",
+      "hasGlobal": false,
+      "hasLocal": true
+    },
+    {
+      "item": "javascript",
+      "name": "JavaScript",
+      "score": 0.5207,
+      "topRule": "none",
+      "hasGlobal": false,
+      "hasLocal": true
+    },
+    {
+      "item": "typescript",
+      "name": "TypeScript",
+      "score": 0.5207,
+      "topRule": "none",
+      "hasGlobal": false,
+      "hasLocal": true
+    },
+    {
+      "item": "nextjs",
+      "name": "Next.js",
+      "score": 0.5207,
+      "topRule": "none",
+      "hasGlobal": false,
+      "hasLocal": true
+    }
+  ]
+}
